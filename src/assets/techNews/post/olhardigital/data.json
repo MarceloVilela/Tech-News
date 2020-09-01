@@ -1,0 +1,38 @@
+{
+  "id": "5f3c62165843ff587cfc4b43",
+  "link": "https://olhardigital.com.br/noticia/grupos-usuarios-de-python-criam-consorcio-para-padronizar-linguagem/105419",
+  "title": "Grupos usuários de Python criam consórcio para padronizar linguagem",
+  "thumb": "https://img.olhardigital.com.br/uploads/acervo_imagens/2020/04/r16x9/20200423030657_500_281_-_python.jpg",
+  "created_at": "2020-08-18T23:19:50.387Z",
+  "posted_at": "2020-08-18T23:19:50.387Z",
+  "contents": [
+    {
+      "type": "text",
+      "value": "Visando melhorar a interoperabilidade para praticantes de aprendizado de máquina e cientistas de dados usando qualquer estrutura, biblioteca ou ferramenta do ecossistema Python, as estruturas de deep learning Apache MXNet e Open Neural Network Exchange (ONNX) lançaram o Consortium for Python Data API Standards nesta segunda-feira (17)."
+    },
+    {
+      "type": "text",
+      "value": "O próprio ONNX foi formado pela Microsoft e pelo Facebook em 2017 para estimular a interoperabilidade entre ferramentas e frameworks. Atualmente, o ONNX inclui cerca de 40 organizações com influências em inteligência artificial e ciência de dados, incluindo Baidu, AWS e IBM, juntamente com fabricantes de hardware como Qualcomm, Arm e Intel."
+    },
+    {
+      "type": "text",
+      "value": "O novo consórcio, que desenvolverá padrões para dataframes e arrays ou tensores, espera resolver a fragmentação que afetou o ecossistema de dados nos últimos anos. A linguagem de programação Python é usado para dataframes Python como Pandas, PySpark e Apache Arrow. Outras estruturas importantes com a linguagem incluem NumPy, PyTorch e TensorFlow. O consórcio não incluirá o PyTorch, um dos frameworks de aprendizado de máquina mais populares atualmente, de acordo com um porta-voz do Facebook em entrevista à Venture Beat."
+    },
+    {
+      "type": "text",
+      "value": "Consórcio busca reduzir a fragmentação no ecossistema Python. Imagem: Reprodução"
+    },
+    {
+      "type": "text",
+      "value": "\"Atualmente, as bibliotecas de array e dataframe têm APIs semelhantes, mas com diferenças suficientes para que não seja possível usá-las de forma intercambiável\", disseram os membros do consórcio. \"Nosso objetivo é transformar este consórcio em uma organização onde o alinhamento entre projetos e ecossistemas em APIs, mecanismos de troca de dados e outros tópicos semelhantes aconteça. Esses tópicos exigem coordenação e comunicação em grau muito maior do que inovação técnica. Nosso objetivo é facilitar o primeiro, deixando a inovação para bibliotecas individuais atuais e futuras\", concluíram."
+    },
+    {
+      "type": "text",
+      "value": "A prioridade do consórcio é estabelecer um grupo de trabalho e desenvolver um padrão inicial. O grupo então solicitará feedback dos mantenedores da biblioteca de array e dataframe e iterar conforme a necessidade antes de disponibilizar uma versão padronizada para uso. Além disso, o grupo também está lançando ferramentas para comparar arrays ou tensores e rastrear algumas das funções principais de uma biblioteca de dataframe. A primeira sessão de feedbacks do consórcio começa no próximo mês."
+    },
+    {
+      "type": "text",
+      "value": "Via: Venture Beat"
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "appearance": {
+    "loadImage": {
+      "title": "Ativar carregamento de imagens",
+      "options": [
+        {
+          "label": "Sempre",
+          "value": "always"
+        },
+        {
+          "label": "Só com WiFi",
+          "value": "wifi"
+        },
+        {
+          "label": "Nunca",
+          "value": "never"
+        }
+      ],
+      "identifier": "appearance_loadImage"
+    },
+    "dimensionCaracter": {
+      "title": "Dimensão padrão caracter",
+      "options": [
+        {
+          "label": "Predefinido",
+          "value": "default"
+        },
+        {
+          "label": "12",
+          "value": "12"
+        },
+        {
+          "label": "14",
+          "value": "14"
+        },
+        {
+          "label": "16",
+          "value": "16"
+        },
+        {
+          "label": "18",
+          "value": "18"
+        },
+        {
+          "label": "20",
+          "value": "20"
+        },
+        {
+          "label": "22",
+          "value": "22"
+        },
+        {
+          "label": "24",
+          "value": "24"
+        },
+        {
+          "label": "36",
+          "value": "36"
+        },
+        {
+          "label": "48",
+          "value": "48"
+        }
+      ],
+      "identifier": "appearance_dimensionCaracter"
+    },
+    "dimensionCaracterArticle": {
+      "title": "Dimensão padrão caracter do artigo",
+      "options": [
+        {
+          "label": "Predefinido",
+          "value": "default"
+        },
+        {
+          "label": "12",
+          "value": "12"
+        },
+        {
+          "label": "14",
+          "value": "14"
+        },
+        {
+          "label": "16",
+          "value": "16"
+        },
+        {
+          "label": "18",
+          "value": "18"
+        },
+        {
+          "label": "20",
+          "value": "20"
+        },
+        {
+          "label": "22",
+          "value": "22"
+        },
+        {
+          "label": "24",
+          "value": "24"
+        },
+        {
+          "label": "36",
+          "value": "36"
+        },
+        {
+          "label": "48",
+          "value": "48"
+        }
+      ],
+      "identifier": "appearance_dimensionCaracterArticle"
+    },
+    "letterType": {
+      "title": "Tipo de letra",
+      "options": [
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Negrito",
+          "value": "bold"
+        },
+        {
+          "label": "Predefinida",
+          "value": "default"
+        }
+      ],
+      "identifier": "appearance_letterType"
+    },
+    "darkMode": {
+      "title": "Modo escuro",
+      "options": [
+        {
+          "label": "Sim",
+          "value": "true"
+        },
+        {
+          "label": "Não",
+          "value": "false"
+        }
+      ],
+      "identifier": "appearance_darkMode"
+    }
+  },
+  "box": {
+    "imageOrientation": {
+      "title": "De que lado mostrar a imagem",
+      "options": [
+        {
+          "label": "Direita",
+          "value": "right"
+        },
+        {
+          "label": "Esquerda",
+          "value": "left"
+        },
+        {
+          "label": "Sobre",
+          "value": "over"
+        }
+      ],
+      "identifier": "box_imageOrientation"
+    },
+    "theme": {
+      "title": "Tema da interface",
+      "options": [
+        {
+          "label": "Material",
+          "value": "material"
+        },
+        {
+          "label": "Material Compact",
+          "value": "materialCompact"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
+        },
+        {
+          "label": "Condensed",
+          "value": "condensed"
+        }
+      ],
+      "identifier": "box_theme"
+    }
+  },
+  "general": {
+    "recent": {
+      "identifier": "general_recent"
+    },
+    "notifications": {
+      "title": "Notificações",
+      "options": [
+        {
+          "label": "Automáticas",
+          "value": "auto"
+        },
+        {
+          "label": "4 Horas",
+          "value": "4"
+        },
+        {
+          "label": "8 Horas",
+          "value": "8"
+        },
+        {
+          "label": "12 Horas",
+          "value": "12"
+        },
+        {
+          "label": "24 Horas",
+          "value": "24"
+        },
+        {
+          "label": "48 Horas",
+          "value": "48"
+        },
+        {
+          "label": "Desativadas",
+          "value": "off"
+        }
+      ],
+      "identifier": "general_notifications"
+    },
+    "exit": {
+      "identifier": "general_exit"
+    },
+    "active": {
+      "identifier": "general_active"
+    },
+    "fullscreen": {
+      "identifier": "general_fullscreen"
+    },
+    "adverts": {
+      "identifier": "general_adverts"
+    },
+    "acceleration": {
+      "identifier": "general_acceleration"
+    },
+    "mobile": {
+      "identifier": "general_mobile"
+    }
+  },
+  "cache": {
+    "clearInterval": {
+      "title": "Limpeza de Cache automática e cookies",
+      "options": [
+        {
+          "label": "Todos os dias",
+          "value": "24"
+        },
+        {
+          "label": "A cada dois dias",
+          "value": "48"
+        },
+        {
+          "label": "A cada três dias",
+          "value": "72"
+        },
+        {
+          "label": "A cada semana",
+          "value": "168"
+        },
+        {
+          "label": "A cada mês",
+          "value": "720"
+        },
+        {
+          "label": "Nunca",
+          "value": "0"
+        }
+      ],
+      "identifier": "cache_clearInterval"
+    },
+    "clearNow": {
+      "title": "Limpar cache e cookies agora",
+      "options": [],
+      "message": "Pretende limpar cache e cookies agora?",
+      "identifier": "cache_clearNow",
+      "iconName": "warning"
+    },
+    "publicity": {
+      "title": "Mudar a publicidade",
+      "options": [
+        {
+          "label": "Após a leitura",
+          "value": "read"
+        },
+        {
+          "label": "Mistura",
+          "value": "random"
+        }
+      ],
+      "identifier": "cache_publicity"
+    }
+  }
+}
