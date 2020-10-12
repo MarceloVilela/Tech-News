@@ -25,7 +25,7 @@ export default function TechNewsRefresh({ navigation }) {
     }
     navigation?.setOptions({ title: `Refresh[${indexOrigin + 1} de ${origins.length}]: ${origins[indexOrigin]['url']}` });
 
-    const url = `/technews-source/`;
+    const url = `/technews-source`;
     const params = { url: origins[indexOrigin]['url'] };
     console.log('requestSourceHomePage');
     setFeedbackText('Listando homepage...');
@@ -47,7 +47,9 @@ export default function TechNewsRefresh({ navigation }) {
     }
 
     const url = 'technews/refresh';
-    const postsFormatted = recents.map(({ link }) => { return { link } });
+    const postsFormatted = recents
+      .map(({ link }) => { return { link } })
+      .splice(0, 20);
     const params = { posts: JSON.stringify(postsFormatted) };
     console.log('requestCheckPending');
     setFeedbackText('Verificando pendentes...');

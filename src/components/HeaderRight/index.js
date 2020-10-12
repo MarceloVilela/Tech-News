@@ -75,8 +75,8 @@ export default function HeaderRight() {
           <MenuOption onSelect={handleNavigateToDefinitions}><OptionText>Definições...</OptionText></MenuOption>
           <MenuOption onSelect={() => setModalChangelogVisible(true)}><OptionText>ChangeLog</OptionText></MenuOption>
           <MenuOption onSelect={handleSendStore}><OptionText>Imprensa de Bolso App</OptionText></MenuOption>
-          <MenuOption onSelect={handleNavigateToRefresh}><OptionText>Refresh</OptionText></MenuOption>
-          <MenuOption onSelect={() => alert(`5`)}><OptionText>Sair</OptionText></MenuOption>
+          {/*<MenuOption onSelect={handleNavigateToRefresh}><OptionText>Refresh</OptionText></MenuOption>*/}
+          <MenuOption onSelect={() => alert(`Sair`)}><OptionText>Sair</OptionText></MenuOption>
         </MenuOptions>
       </Menu>
 
