@@ -30,14 +30,6 @@ export default function App() {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
 
-        <Stack.Screen name="TechNewsRefresh" component={TechNewsRefresh}
-          options={{
-            headerStyle: { backgroundColor: '#1B75CB' },
-            headerTintColor: '#fff',
-            title: 'Refresh',
-          }}
-        />
-
         <Stack.Screen name="TechNewsArticlesTabs" component={TechNewsArticlesTabs}
           options={{
             headerStyle: {
@@ -76,6 +68,14 @@ export default function App() {
             headerStyle: { backgroundColor: '#1B75CB' },
             headerTintColor: '#fff',
             title: 'Entrar - Login social',
+          }}
+        />
+
+        <Stack.Screen name="TechNewsRefresh" component={TechNewsRefresh}
+          options={{
+            headerStyle: { backgroundColor: '#1B75CB' },
+            headerTintColor: '#fff',
+            title: 'Refresh',
           }}
         />
 
