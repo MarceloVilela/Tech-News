@@ -22,6 +22,7 @@ function TechNewsDetail({ route, navigation, url_sample = url_default, origin = 
 
   const { fontSize, renderMode, shareIsPending, setShareIsPending } = useDetailActions();
   const [data, setData] = useState({});
+  const [includesVideo, setIncludesVideo] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const load = useCallback(
@@ -39,7 +40,11 @@ function TechNewsDetail({ route, navigation, url_sample = url_default, origin = 
 
         const { data: post } = await api.get(url, { params });
 
+        const hasVideo = post.contents.filter(({ type }) => type === 'video').length > 0;
+        setIncludesVideo(hasVideo);
+
         setData(post);
+
         navigation?.setOptions({ title: post.title });
       } catch (error) {
         console.log(error, error.message)
@@ -83,6 +88,10 @@ function TechNewsDetail({ route, navigation, url_sample = url_default, origin = 
   }
 
   if (renderMode === 'webview') {
+    return <WebView source={{ uri: data.link }} />;
+  }
+
+  if (includesVideo) {
     return <WebView source={{ uri: data.link }} />;
   }
 

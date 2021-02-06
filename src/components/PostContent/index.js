@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import YouTube from 'react-native-youtube';
 
+import env from '../../../env'
 import values from '../../styles'
 import { Text, TextHighlighted, Image } from './styles';
 
@@ -17,6 +19,18 @@ const render = {
     return <Image
       source={{ uri: content }}
     />
+  },
+
+  video({ content }) {
+    if (content.includes('//www.youtube.com')) {
+      return <Text>{content.split('embed/')[1].split('?')[0]}</Text>;
+
+      return <YouTube
+        videoId={{ uri: content.split('embed/')[1].split('?')[0] }}
+        apiKey={env.GOOGLE_YOUTUBE_API_KEY}
+      />
+    }
+    return ''
   }
 }
 
@@ -34,7 +48,7 @@ export default function PostContent({ data, fontSize }) {
 
 PostContent.propTypes = {
   data: PropTypes.shape({
-    type: PropTypes.oneOf(['text', 'text-highlighted', 'image']),
+    type: PropTypes.oneOf(['text', 'text-highlighted', 'image', 'video']),
     value: PropTypes.string,
     fontSize: PropTypes.oneOf(Object.keys(values.fontParagraph)),
   }).isRequired,
