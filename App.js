@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { LogBox, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
 import { MenuProvider } from 'react-native-popup-menu';
 import AppProvider from './src/hooks';
@@ -7,7 +7,7 @@ import AppProvider from './src/hooks';
 import Routes from './src/routes'
 
 export default function App() {
-  console.disableYellowBox = true
+  LogBox.ignoreAllLogs(true)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar barStyle="light-content" backgroundColor="#0c6eb5" />
