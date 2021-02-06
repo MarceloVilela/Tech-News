@@ -8,115 +8,125 @@ import { posts } from '../../../assets/techNews/home/olhardigital/data.json';
 import Container from "../../../components/Container";
 import Button from "../../../components/Button";
 import { Strong, Small } from './styles'
+import { isValidArticle } from "../../../utils";
 
 const { width } = Dimensions.get('window');
 
 export default function TechNewsRefresh({ navigation }) {
-  const [indexOrigin, setIndexOrigin] = useState(0);
+  const [indexOrigin, setIndexOrigin] = useState(-1);
 
-  const [recents, setRecents] = useState([]);
+  //const [recents, setRecents] = useState([]);
 
   const [responseDebug, setResponseDebug] = useState([]);
   const [feedbackText, setFeedbackText] = useState('');
 
-  const requestSourceHomePage = useCallback(async () => {
-    if (!origins[indexOrigin]) {
-      return;
-    }
-    navigation?.setOptions({ title: `Refresh[${indexOrigin + 1} de ${origins.length}]: ${origins[indexOrigin]['url']}` });
+  useEffect(() => {
+    const refresh = async () => {
 
-    const url = `/technews-source`;
-    const params = { url: origins[indexOrigin]['url'] };
-    console.log('requestSourceHomePage');
-    setFeedbackText('Listando homepage...');
+      if (!origins[indexOrigin]) {
+        return;
+      }
+      navigation?.setOptions({ title: `Refresh[${indexOrigin + 1} de ${origins.length}]: ${origins[indexOrigin]['url']}` });
 
-    try {
-      const response = await api.get(url, { params });
-      //const response = { data: { posts } };
+      const url = `/technews-source`;
+      const params = { url: origins[indexOrigin]['url'] };
+      setFeedbackText('Listando homepage...');
 
-      setRecents(response.data.posts);
-      setResponseDebug(response.data.posts);
-    } catch (error) {
-      Alert.alert(url, JSON.stringify(params));
-    }
-  }, [recents]);
+      let recents = [];
+      try {
+        const response = await api.get(url, { params });
+        recents = response.data.posts;
+        setResponseDebug(response.data.posts);
+      } catch (error) {
+        Alert.alert(`Erro ao listar homepage ${origins[indexOrigin].title}`, `${url} JSON.stringify(params)`);
+        setIndexOrigin(indexOrigin + 1);
+        return;
+      }
 
-  const pending = useMemo(async () => {
-    if (recents.length === 0) {
-      return;
-    }
+      //
+      //
+      //
+      if (recents.length === 0) {
+        setIndexOrigin(indexOrigin + 1);
+        return;
+      }
 
-    const url = 'technews/refresh';
-    const postsFormatted = recents
-      .map(({ link }) => { return { link } })
-      .splice(0, 20);
-    const params = { posts: JSON.stringify(postsFormatted) };
-    console.log('requestCheckPending');
-    setFeedbackText('Verificando pendentes...');
+      const urlToCheck = 'technews/refresh';
+      const postsFormatted = recents
+        .map(({ link }) => { return { link } })
+        .splice(0, 20);
+      const paramsToCheck = { posts: JSON.stringify(postsFormatted) };
+      setFeedbackText('Verificando pendentes...');
 
-    try {
-      const response = await api.get(url, { params });
+      let pending = [];
+      try {
+        const response = await api.post(urlToCheck, postsFormatted);
+        pending = response.data;
+        setResponseDebug(response.data);
+      } catch (error) {
+        console.log(paramsToCheck);
+        Alert.alert(`Erro ao checar pendentes ${origins[indexOrigin].title}`, `${urlToCheck}\n${error.message}\n${JSON.stringify(error.response, null, 2)}`);
+        setIndexOrigin(indexOrigin + 1);
+        return;
+      }
 
-      //const dataToSet = response.data.slice(0, 3);
-      const dataToSet = response.data;
+      //
+      //
+      //
+      if (!pending || pending.length === 0) {
+        setFeedbackText('Não restam pendentes');
+        setIndexOrigin(indexOrigin + 1);
+        return;
+      }
 
-      setResponseDebug(dataToSet);
-      return dataToSet;
-    } catch (error) {
-      Alert.alert(`Erro: ${url}, ${error.message}`, JSON.stringify(params));
-    }
-  }, [recents]);
+      const pendingResolved = pending;
 
-  const created = useMemo(async () => {
-    if (pending.length === 0) {
-      setFeedbackText('Completo!');
-      return;
-    }
-
-    const pendingResolved = await pending;
-
-    try {
-      //getContent
-      console.log('requestCreatePending.details');
       setFeedbackText('Listando post');
-
       const urlSource = '/technews-source/detail';
-      console.log('pending', pendingResolved, typeof pendingResolved);
-      const response = await Promise.all(
-        pendingResolved.map(url => api.get(urlSource, { params: { url } }))
-      );
+      try {
+        const response = await Promise.all(
+          pendingResolved.map(url => api.get(urlSource, { params: { url } }))
+        );
 
-      const responsesFiltered = response.filter(({ data: item }) => item.link && item.thumb);
+        const responsesFiltered = response
+          .filter(({ data: item }) => item.link && item.thumb)
+          .filter(({ data: item }) => isValidArticle(item));
 
-      //create
-      console.log('requestCreatePending.create');
-      setFeedbackText('Armazenando post...');
+        setFeedbackText('Armazenando post...');
 
-      const urlCreate = '/technews';
-      await Promise.all(
-        responsesFiltered.map(({ data }) => api.post(urlCreate, data))
-      );
+        const urlCreate = '/technews/post';
+        await Promise.all(
+          responsesFiltered.map(({ data }) => api.post(urlCreate, data))
+        );
 
-      setFeedbackText('Completo!!!');
-      setIndexOrigin(indexOrigin + 1);
-      requestSourceHomePage();
-      return true;
-    } catch (error) {
-      Alert.alert(`Erro`, error.message);
+        if (indexOrigin === origins.length - 1) {
+          setFeedbackText('Completo!!!');
+        }
+        else {
+          setIndexOrigin(indexOrigin + 1);
+        }
+      } catch (error) {
+        Alert.alert(
+          `Erro ao enviar artigo ${origins[indexOrigin].title}`,
+          error.data ? JSON.stringify(error.data, null, 2) : error.message
+        );
+        setIndexOrigin(indexOrigin + 1);
+      }
     }
-  }, [pending])
+    refresh();
+  }, [indexOrigin]);
 
   // when starting page
   useEffect(() => {
-    console.clear();
-    console.log('Page technews/refresh');
-    
-    setIndexOrigin(0);
-    setRecents([]);
+    //console.clear();
+    //console.log('Page technews/refresh');
+
+    //setRecents([]);
     setResponseDebug([]);
     setFeedbackText('');
-    
-    requestSourceHomePage();
+    setIndexOrigin(0);
+
+    //requestSourceHomePage();
   }, []);
 
   return (
