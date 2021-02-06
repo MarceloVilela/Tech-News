@@ -24,8 +24,8 @@ function TechNewsArticlesTabs() {
           backgroundColor: '#1B75CB'
         },
         labelStyle: {
-          fontSize: 15,
-          marginLeft: 0,
+          fontSize: 14,
+          margin: 0,
         },
         inactiveBackgroundColor: '#1B75CB',
         activeBackgroundColor: '#1B75CB',
