@@ -3,8 +3,6 @@ import Container from './Container';
 import Feed from './Feed';
 import HeaderRight from './HeaderRight';
 import HeaderRightNewsDetail from './HeaderRightNewsDetail';
-import Help from './Help';
-import Input from './Input';
 import ModalConfirm from './ModalConfirm';
 import ModalPrompt from './ModalPrompt';
 import PostContent from './PostContent';
@@ -18,8 +16,6 @@ export {
   Feed,
   HeaderRight,
   HeaderRightNewsDetail,
-  Help,
-  Input,
   ModalConfirm,
   ModalPrompt,
   PostContent,
