@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Text, View, ScrollView, Switch, Linking } from "react-native";
 
+import { navigate } from '../../../RootNavigation';
 import { useDefinitions } from '../../../hooks/definitions'
 import { appearance, box, general, cache } from "../../../assets/definitions.json";
 import { Container, ModalConfirm, ModalPrompt, Switch as SwitchStyled } from "../../../components";
@@ -16,7 +17,7 @@ import {
 
 export default function TechNewsDefinitions({ navigation }) {
   const { definitions, updateDefinition, descriptions: currentDescription } = useDefinitions();
-  
+
   const [promptVisible, setPromptVisible] = useState(false);
   const [confirmVisible, setConfirmVisible] = useState(false);
 
@@ -215,6 +216,11 @@ export default function TechNewsDefinitions({ navigation }) {
               value={definitions[general.mobile.identifier]}
             />
           </DefinitionSwitch>
+
+          <Definition onPress={() => navigate('TechNewsSocialAuth')}>
+            <Label>Logar</Label>
+            <Description>Autenticação social</Description>
+          </Definition>
         </Fieldset>
 
         <Fieldset>

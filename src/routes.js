@@ -9,11 +9,13 @@ import { createCollapsibleStack, disableExpoTranslucentStatusBar } from 'react-n
 
 import { navigationRef, navigate } from './RootNavigation';
 
-import TechNewsArticlesTabs from './TechNewsArticlesTabs';
 import TechNews from './pages/TechNews/Articles'
+import TechNewsArticlesTabs from './TechNewsArticlesTabs';
 import TechNewsDetail from './pages/TechNews/Detail'
-import TechNewsRefresh from './pages/TechNews/Refresh'
+
 import TechNewsDefinitions from './pages/TechNews/Definitions';
+import TechNewsSocialAuth from './pages/TechNews/SocialAuth'
+import TechNewsRefresh from './pages/TechNews/Refresh'
 
 import HeaderRight from './components/HeaderRight'
 import HeaderRightNewsDetail from './components/HeaderRightNewsDetail'
@@ -28,6 +30,14 @@ export default function App() {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
 
+        <Stack.Screen name="TechNewsRefresh" component={TechNewsRefresh}
+          options={{
+            headerStyle: { backgroundColor: '#1B75CB' },
+            headerTintColor: '#fff',
+            title: 'Refresh',
+          }}
+        />
+
         <Stack.Screen name="TechNewsArticlesTabs" component={TechNewsArticlesTabs}
           options={{
             headerStyle: {
@@ -39,14 +49,6 @@ export default function App() {
             headerRight: (props) => (
               <HeaderRight />
             ),
-          }}
-        />
-
-        <Stack.Screen name="TechNewsRefresh" component={TechNewsRefresh}
-          options={{
-            headerStyle: { backgroundColor: '#1B75CB' },
-            headerTintColor: '#fff',
-            title: 'Refresh',
           }}
         />
 
@@ -66,6 +68,14 @@ export default function App() {
             headerStyle: { backgroundColor: '#1B75CB' },
             headerTintColor: '#fff',
             title: 'Definições',
+          }}
+        />
+
+        <Stack.Screen name="TechNewsSocialAuth" component={TechNewsSocialAuth}
+          options={{
+            headerStyle: { backgroundColor: '#1B75CB' },
+            headerTintColor: '#fff',
+            title: 'Entrar - Login social',
           }}
         />
 
