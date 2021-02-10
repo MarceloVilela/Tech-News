@@ -1,6 +1,4 @@
 import styled from 'styled-components/native';
-import AutoHeightImage from 'react-native-auto-height-image';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export const Container = styled.View`
   margin-bottom: 24px;
@@ -42,7 +40,7 @@ export const About = styled.View`
   align-items: center;
 
   margin-bottom: 8px;
-`
+`;
 
 export const Avatar = styled.Image`
   width: 32px;
@@ -50,12 +48,11 @@ export const Avatar = styled.Image`
   border-radius: 16px;
 `;
 
-
 export const LabelsContainer = styled.View`
   flex-direction: column;
   margin-left: 8px;
-`
+`;
 
 export const Link = styled.View`
   margin: 16px 0;
-`
+`;

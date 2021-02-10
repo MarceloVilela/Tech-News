@@ -1,12 +1,12 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import { origins } from './assets/origins.json';
-import OriginArticles from '../src/pages/TechNews/Articles';
 import { View } from 'react-native';
+import { origins } from './assets/origins.json';
+import OriginArticles from './pages/TechNews/Articles';
 
 const Tab = createMaterialTopTabNavigator();
-const lazyPlaceholder = () => <View />
+const lazyPlaceholder = () => <View />;
 
 function TechNewsArticlesTabs() {
   return (
@@ -25,12 +25,12 @@ function TechNewsArticlesTabs() {
         },
         labelStyle: {
           fontSize: 14,
-          margin: 0,
+          margin: 0
         },
         inactiveBackgroundColor: '#1B75CB',
         activeBackgroundColor: '#1B75CB',
         inactiveTintColor: '#aaa',
-        activeTintColor: '#eee',
+        activeTintColor: '#eee'
       }}
     >
       <Tab.Screen
@@ -39,17 +39,17 @@ function TechNewsArticlesTabs() {
         initialParams={{ id: '' }}
         options={{ tabBarLabel: 'MAIS RECENTES' }}
       />
-      {origins.map(({ title, url }, key) => (
+      {origins.map(({ title, url }) => (
         <Tab.Screen
           name={title}
           component={OriginArticles}
           initialParams={{ id: url, tabTitle: title }}
           options={{ tabBarLabel: title }}
-          key={key}
+          key={url}
         />
       ))}
     </Tab.Navigator>
-  )
+  );
 }
 
 export default TechNewsArticlesTabs;

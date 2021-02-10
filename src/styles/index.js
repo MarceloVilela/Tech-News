@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import _styled from 'styled-components/native';
 
 const styles = {
   spacing_int: 20,
@@ -31,13 +31,13 @@ const styles = {
     big: '18px',
     bigger: '20px'
   }
-}
+};
 
 export const preDefined = {
   link: {
     color: styles.colorLink,
-    'text-decoration': 'underline',
+    'text-decoration': 'underline'
   }
-}
+};
 
 export default styles;

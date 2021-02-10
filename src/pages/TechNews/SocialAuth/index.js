@@ -1,24 +1,23 @@
-import * as React from 'react';
-import { View, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Button, Alert } from 'react-native';
 import { AsyncStorage } from '@react-native-community/async-storage';
 import * as Google from 'expo-google-app-auth';
-
+import PropTypes from 'prop-types';
 
 import env from '../../../../env';
 import { navigate } from '../../../RootNavigation';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
-export default function App() {
-  const [userEmail, setUserEmail] = useState('marcelo.vilela.s@gmail.com');
+export default function SocialAuth({ navigation }) {
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
-    _retrieveData = async () => {
+    const _retrieveData = async () => {
       try {
         const value = await AsyncStorage.getItem('@TechNews:userEmail');
-        alert(`Recuperou ${value}`);
+
         if (value !== null) {
-          setUserEmail(userEmail)
+          setUserEmail(userEmail);
+          navigation.setOptions({ title: userEmail });
         }
       } catch (error) {
         // Error retrieving data
@@ -26,13 +25,12 @@ export default function App() {
     };
 
     _retrieveData();
-  }, []);
+  }, [userEmail]);
 
   const handleGoogleLoginPress = async () => {
     try {
-      _storeData = async (email) => {
+      const _storeData = async (email) => {
         try {
-          alert(`Armazenou ${email}`);
           await AsyncStorage.setItem('@TechNews:userEmail', email);
         } catch (error) {
           // Error saving data
@@ -42,46 +40,53 @@ export default function App() {
       await _storeData(null);
       setUserEmail('');
 
-      const { type, accessToken, idToken, refreshToken, user } = await Google.logInAsync({
-        androidClientId: env.GOOGLE_ANDROID_CLIENT_ID,
-        //iosClientId: GOOGLE_IOS_CLIENT_ID,
+      const { type, user } = await Google.logInAsync({
+        androidClientId: env.GOOGLE_ANDROID_CLIENT_ID
+        // iosClientId: GOOGLE_IOS_CLIENT_ID,
       });
 
       if (type === 'success') {
         await _storeData(user.email);
         setUserEmail(user.email);
 
-        //navigate('TechNewsDefinitions');
+        // navigate('TechNewsDefinitions');
       }
     } catch (e) {
-      console.log('error', e);
+      Alert.alert('Erro ao autenticar via Google');
     }
   };
 
   return (
     <View>
-      {/*<Button title="Start" onPress={handleStartPress} />*/}
-      <View style={{ display: 'flex', height: '100%', justifyContent: 'center', paddingHorizontal: 20, backgroundColor: '#ccc' }}>
-        {userEmail
-          ? (
+      <View
+        style={{
+          display: 'flex',
+          height: '100%',
+          justifyContent: 'center',
+          paddingHorizontal: 20,
+          backgroundColor: '#ccc'
+        }}
+      >
+        {userEmail ? (
+          <>
+            <Button
+              title="Buscar novos artigos"
+              onPress={() => navigate('TechNewsRefresh')}
+              style={{ flex: 1 }}
+            />
+          </>
+        ) : (
             <>
-              <Button
-                title="Buscar novos artigos"
-                onPress={() => navigate('TechNewsRefresh')}
-                style={{ flex: 1 }}
-              />
+              <Button title="Google" onPress={handleGoogleLoginPress} style={{ flex: 1 }} />
             </>
-          ) : (
-            <>
-              <Button
-                title="Google"
-                onPress={handleGoogleLoginPress}
-                style={{ flex: 1 }}
-              />
-            </>
-          )
-        }
+          )}
       </View>
-    </View >
+    </View>
   );
+}
+
+SocialAuth.propTypes = {
+  navigation: PropTypes.shape({
+    setOptions: PropTypes.func.isRequired,
+  }).isRequired,
 }

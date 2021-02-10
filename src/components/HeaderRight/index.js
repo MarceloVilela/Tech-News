@@ -1,17 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Linking,
-  Modal,
-  View,
-  Text,
-  ScrollView
-} from 'react-native';
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import { Linking, Modal, View, Text, ScrollView, Alert } from 'react-native';
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
 import { navigate } from '../../RootNavigation';
 import { origins } from '../../assets/origins.json';
@@ -47,7 +36,7 @@ export default function HeaderRight() {
   }, []);
 
   const handleNavigateToDefinitions = useCallback(() => {
-    navigate('TechNewsDefinitions')
+    navigate('TechNewsDefinitions');
   }, []);
 
   const handleSendStore = useCallback((id = 'it.pinenuts.rassegnastampa') => {
@@ -57,34 +46,35 @@ export default function HeaderRight() {
     }
   }, []);
 
-  const handleNavigateToRefresh = useCallback(() => {
-    navigate('TechNewsRefresh')
-  }, []);
-
   return (
     <Container>
-
-      <ActionSelect name='reply' onPress={() => setModalVisible(!modalVisible)} />
+      <ActionSelect name="reply" onPress={() => setModalVisible(!modalVisible)} />
 
       <Menu style={{ marginRight: 5 }}>
         <MenuTrigger>
-          <ActionConfig name='more-vert' />
+          <ActionConfig name="more-vert" />
         </MenuTrigger>
         <MenuOptions style={{ marginRight: 15 }}>
-          <MenuOption onSelect={handleSendFeedBack}><OptionText>Enviar Feedback</OptionText></MenuOption>
-          <MenuOption onSelect={handleNavigateToDefinitions}><OptionText>Definições...</OptionText></MenuOption>
-          <MenuOption onSelect={() => setModalChangelogVisible(true)}><OptionText>ChangeLog</OptionText></MenuOption>
-          <MenuOption onSelect={handleSendStore}><OptionText>Imprensa de Bolso App</OptionText></MenuOption>
-          {/*<MenuOption onSelect={handleNavigateToRefresh}><OptionText>Refresh</OptionText></MenuOption>*/}
-          <MenuOption onSelect={() => alert(`Sair`)}><OptionText>Sair</OptionText></MenuOption>
+          <MenuOption onSelect={handleSendFeedBack}>
+            <OptionText>Enviar Feedback</OptionText>
+          </MenuOption>
+          <MenuOption onSelect={handleNavigateToDefinitions}>
+            <OptionText>Definições...</OptionText>
+          </MenuOption>
+          <MenuOption onSelect={() => setModalChangelogVisible(true)}>
+            <OptionText>ChangeLog</OptionText>
+          </MenuOption>
+          <MenuOption onSelect={handleSendStore}>
+            <OptionText>Imprensa de Bolso App</OptionText>
+          </MenuOption>
+          {/* <MenuOption onSelect={handleNavigateToRefresh}><OptionText>Refresh</OptionText></MenuOption> */}
+          <MenuOption onSelect={() => Alert.alert('Sair')}>
+            <OptionText>Sair</OptionText>
+          </MenuOption>
         </MenuOptions>
       </Menu>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-      >
+      <Modal animationType="slide" transparent visible={modalVisible}>
         <ModalContainer>
           <ModalContent>
             <ModalTitle>Mudar para feed</ModalTitle>
@@ -93,9 +83,8 @@ export default function HeaderRight() {
               <SwitchTouchable onPress={() => handleSwitchToFeed({ url: '', title: 'recentes' })}>
                 <SwitchOption>Mais recentes</SwitchOption>
               </SwitchTouchable>
-
-              {origins.map(({ title, url }, key) => (
-                <SwitchTouchable key={key} onPress={() => handleSwitchToFeed({ url, title })}>
+              {origins.map(({ title, url }) => (
+                <SwitchTouchable key={url} onPress={() => handleSwitchToFeed({ url, title })}>
                   <SwitchOption>{title}</SwitchOption>
                 </SwitchTouchable>
               ))}
@@ -104,11 +93,7 @@ export default function HeaderRight() {
         </ModalContainer>
       </Modal>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalChangelogVisible}
-      >
+      <Modal animationType="slide" transparent visible={modalChangelogVisible}>
         <ModalContainer>
           <ModalContent>
             <ModalTitle>Change Log</ModalTitle>
@@ -130,6 +115,6 @@ export default function HeaderRight() {
           </ModalContent>
         </ModalContainer>
       </Modal>
-    </Container >
+    </Container>
   );
 }

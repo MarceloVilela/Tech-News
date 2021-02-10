@@ -1,11 +1,11 @@
 const isValidUrl = (url) => {
   try {
-    new URL(url);
+    const _ = new URL(url);
   } catch (_) {
     return false;
   }
 
-  return data.thumb.startsWith('https://') || data.thumb.startsWith('http://');
-}
+  return url.match(/^http:\/\/|https:\/\/|:\/\//);
+};
 
 export default isValidUrl;

@@ -1,6 +1,5 @@
 import Button from './Button';
 import Container from './Container';
-import Feed from './Feed';
 import HeaderRight from './HeaderRight';
 import HeaderRightNewsDetail from './HeaderRightNewsDetail';
 import ModalConfirm from './ModalConfirm';
@@ -13,7 +12,6 @@ import Switch from './Switch';
 export {
   Button,
   Container,
-  Feed,
   HeaderRight,
   HeaderRightNewsDetail,
   ModalConfirm,
@@ -22,4 +20,4 @@ export {
   Preview,
   RadioButton,
   Switch
-}
+};

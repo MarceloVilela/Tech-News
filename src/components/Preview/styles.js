@@ -14,7 +14,7 @@ export const Container = styled.View`
   align-items: baseline;
   justify-content: space-between;
 
-  margin-top: ${props => (props.first ? '10px' : '0')};
+  margin-top: ${(props) => (props.first ? '10px' : '0')};
 `;
 
 export const Header = styled.View`
@@ -31,9 +31,9 @@ export const Title = styled.Text`
   flex: 1;
 `;
 
-export const Thumb = styled(AutoHeightImage).attrs(props => ({
+export const Thumb = styled(AutoHeightImage).attrs(() => ({
   width: 128,
-  minHeight: 72,
+  minHeight: 72
 }))`
   border-radius: 8px;
   border-width: 8px;
@@ -69,10 +69,10 @@ export const Time = styled.Text`
   /* border: 1px solid black; */
 `;
 
-export const Action = styled(Icon).attrs(props => ({
+export const Action = styled(Icon).attrs(() => ({
   name: 'more-vert',
   size: 25,
-  color: '#151515',
+  color: '#151515'
   // contentContainerStyle: { padding: 30 },
 }))`
   /* border: 1px solid black; */

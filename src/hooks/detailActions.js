@@ -1,18 +1,15 @@
-import React, {
-  createContext,
-  useCallback,
-  useState,
-  useContext
-} from 'react';
+import React, { createContext, useCallback, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 
 import values from '../styles';
+
 const fontSizes = Object.keys(values.fontParagraph);
 
 const DetailActionsContext = createContext({});
 
 const DetailActionsProvider = ({ children }) => {
   const [renderMode, setRenderMode] = useState('default');
-  const [fontSize, setFontSize] = useState('default'); //smaller, small, default, big, bigger
+  const [fontSize, setFontSize] = useState('default'); // smaller, small, default, big, bigger
   const [shareIsPending, setShareIsPending] = useState(false);
 
   const decreaseFont = useCallback(() => {
@@ -29,14 +26,22 @@ const DetailActionsProvider = ({ children }) => {
     }
   }, [fontSize]);
 
-
   const toggleRender = useCallback(() => {
     setRenderMode(renderMode === 'default' ? 'webview' : 'default');
   }, [renderMode]);
 
   return (
     <DetailActionsContext.Provider
-      value={{ fontSize, decreaseFont, increaseFont, renderMode, toggleRender, shareIsPending, setShareIsPending }}>
+      value={{
+        fontSize,
+        decreaseFont,
+        increaseFont,
+        renderMode,
+        toggleRender,
+        shareIsPending,
+        setShareIsPending
+      }}
+    >
       {children}
     </DetailActionsContext.Provider>
   );
@@ -51,5 +56,9 @@ function useDetailActions() {
 
   return context;
 }
+
+DetailActionsProvider.propTypes = {
+  children: PropTypes.element.isRequired
+};
 
 export { DetailActionsProvider, useDetailActions };

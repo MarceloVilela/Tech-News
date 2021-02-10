@@ -1,33 +1,22 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Text, View, ScrollView, Modal, TouchableOpacity, Dimensions, Linking, Alert } from "react-native";
+import React from 'react';
+import { Text, Modal, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 
 import {
-  Definition,
-  //
   ModalHeader,
   ModalIcon,
   ModalTitle,
   ModalContainer,
   ModalContent,
   ModalFooter,
-  //
-  Option,
-  OptionLabel,
   MessageConfirm
-} from './styles'
-import RadioButton from "../RadioButton";
+} from './styles';
 
 export default function ModalConfirm({ visible, iconName, title, onCancel, onConfirm, message }) {
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      on
-    >
+    <Modal animationType="slide" transparent visible={visible} on>
       <ModalContainer>
         <ModalContent>
-
           <ModalHeader>
             <ModalIcon name={iconName} />
             <ModalTitle>{title}</ModalTitle>
@@ -36,22 +25,25 @@ export default function ModalConfirm({ visible, iconName, title, onCancel, onCon
           <MessageConfirm>{message}</MessageConfirm>
 
           <ModalFooter>
-            <TouchableOpacity
-              onPress={onCancel}
-              style={{ width: 90 }}
-            >
+            <TouchableOpacity onPress={onCancel} style={{ width: 90 }}>
               <Text style={{ color: '#1B75CB' }}>CANCELAR</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={onConfirm}
-              style={{ width: 20 }}
-            >
+            <TouchableOpacity onPress={onConfirm} style={{ width: 20 }}>
               <Text style={{ color: '#1B75CB' }}>OK</Text>
             </TouchableOpacity>
           </ModalFooter>
         </ModalContent>
       </ModalContainer>
     </Modal>
-  )
+  );
 }
+
+ModalConfirm.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  iconName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+  message: PropTypes.string.isRequired
+};

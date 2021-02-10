@@ -30,8 +30,8 @@ export const ModalContainer = styled.View`
   border-width: 2px;
   /*border-color: red;*/
 
-  background-color: rgba(0,0,0,0.8);
-`
+  background-color: rgba(0, 0, 0, 0.8);
+`;
 
 export const ModalContent = styled.View`
   /*flex: 1;*/
@@ -39,7 +39,7 @@ export const ModalContent = styled.View`
   padding: 8px;
   background-color: #fff;
   border-radius: 8px;
-`
+`;
 
 export const ModalHeader = styled.View`
   flex-direction: row;
@@ -47,9 +47,9 @@ export const ModalHeader = styled.View`
   margin-bottom: 10px;
   align-items: center;
   justify-content: center;
-`
+`;
 
-export const ModalIcon = styled(Icon).attrs(props => ({
+export const ModalIcon = styled(Icon).attrs((props) => ({
   name: props.name,
   size: 40,
   color: '#CCC'
@@ -64,7 +64,7 @@ export const ModalTitle = styled.Text`
   color: #151515;
 
   flex: 1;
-`
+`;
 
 export const ModalFooter = styled.View`
   flex-direction: row;
@@ -73,4 +73,4 @@ export const ModalFooter = styled.View`
   justify-content: flex-end;
   /** */
   padding: 10px;
-`
+`;

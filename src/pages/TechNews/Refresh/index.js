@@ -1,35 +1,33 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { Text, View, ScrollView, Dimensions, Linking, Alert } from "react-native";
-import AutoHeightImage from 'react-native-auto-height-image';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, Alert } from 'react-native';
+import PropTypes from 'prop-types';
 
-import api from "../../../services/api";
+import api from '../../../services/api';
 import { origins } from '../../../assets/origins.json';
-import { posts } from '../../../assets/techNews/home/olhardigital/data.json';
-import Container from "../../../components/Container";
-import Button from "../../../components/Button";
-import { Strong, Small } from './styles'
-import { isValidArticle } from "../../../utils";
-
-const { width } = Dimensions.get('window');
+import Container from '../../../components/Container';
+import Button from '../../../components/Button';
+import { Small } from './styles';
+import { isValidArticle } from '../../../utils';
 
 export default function TechNewsRefresh({ navigation }) {
   const [indexOrigin, setIndexOrigin] = useState(-1);
 
-  //const [recents, setRecents] = useState([]);
+  // const [recents, setRecents] = useState([]);
 
   const [responseDebug, setResponseDebug] = useState([]);
   const [feedbackText, setFeedbackText] = useState('');
 
   useEffect(() => {
     const refresh = async () => {
-
       if (!origins[indexOrigin]) {
         return;
       }
-      navigation?.setOptions({ title: `Refresh[${indexOrigin + 1} de ${origins.length}]: ${origins[indexOrigin]['url']}` });
+      navigation?.setOptions({
+        title: `Refresh[${indexOrigin + 1} de ${origins.length}]: ${origins[indexOrigin].url}`
+      });
 
       const url = `/technews-source`;
-      const params = { url: origins[indexOrigin]['url'] };
+      const params = { url: origins[indexOrigin].url };
       setFeedbackText('Listando homepage...');
 
       let recents = [];
@@ -38,7 +36,10 @@ export default function TechNewsRefresh({ navigation }) {
         recents = response.data.posts;
         setResponseDebug(response.data.posts);
       } catch (error) {
-        Alert.alert(`Erro ao listar homepage ${origins[indexOrigin].title}`, `${url} JSON.stringify(params)`);
+        Alert.alert(
+          `Erro ao listar homepage ${origins[indexOrigin].title}`,
+          `${url} JSON.stringify(params)`
+        );
         setIndexOrigin(indexOrigin + 1);
         return;
       }
@@ -52,10 +53,7 @@ export default function TechNewsRefresh({ navigation }) {
       }
 
       const urlToCheck = 'technews/refresh';
-      const postsFormatted = recents
-        .map(({ link }) => { return { link } })
-        .splice(0, 20);
-      const paramsToCheck = { posts: JSON.stringify(postsFormatted) };
+      const postsFormatted = recents.map(({ link }) => ({ link })).splice(0, 20);
       setFeedbackText('Verificando pendentes...');
 
       let pending = [];
@@ -64,8 +62,10 @@ export default function TechNewsRefresh({ navigation }) {
         pending = response.data;
         setResponseDebug(response.data);
       } catch (error) {
-        console.log(paramsToCheck);
-        Alert.alert(`Erro ao checar pendentes ${origins[indexOrigin].title}`, `${urlToCheck}\n${error.message}\n${JSON.stringify(error.response, null, 2)}`);
+        Alert.alert(
+          `Erro ao checar pendentes ${origins[indexOrigin].title}`,
+          `${urlToCheck}\n${error.message}\n${JSON.stringify(error.response, null, 2)}`
+        );
         setIndexOrigin(indexOrigin + 1);
         return;
       }
@@ -85,7 +85,7 @@ export default function TechNewsRefresh({ navigation }) {
       const urlSource = '/technews-source/detail';
       try {
         const response = await Promise.all(
-          pendingResolved.map(url => api.get(urlSource, { params: { url } }))
+          pendingResolved.map((urlToList) => api.get(urlSource, { params: { url: urlToList } }))
         );
 
         const responsesFiltered = response
@@ -95,14 +95,11 @@ export default function TechNewsRefresh({ navigation }) {
         setFeedbackText('Armazenando post...');
 
         const urlCreate = '/technews/post';
-        await Promise.all(
-          responsesFiltered.map(({ data }) => api.post(urlCreate, data))
-        );
+        await Promise.all(responsesFiltered.map(({ data }) => api.post(urlCreate, data)));
 
         if (indexOrigin === origins.length - 1) {
           setFeedbackText('Completo!!!');
-        }
-        else {
+        } else {
           setIndexOrigin(indexOrigin + 1);
         }
       } catch (error) {
@@ -112,21 +109,18 @@ export default function TechNewsRefresh({ navigation }) {
         );
         setIndexOrigin(indexOrigin + 1);
       }
-    }
+    };
     refresh();
-  }, [indexOrigin]);
+  }, [indexOrigin, navigation]);
 
   // when starting page
   useEffect(() => {
-    //console.clear();
-    //console.log('Page technews/refresh');
-
-    //setRecents([]);
+    // setRecents([]);
     setResponseDebug([]);
     setFeedbackText('');
     setIndexOrigin(0);
 
-    //requestSourceHomePage();
+    // requestSourceHomePage();
   }, []);
 
   return (
@@ -136,10 +130,14 @@ export default function TechNewsRefresh({ navigation }) {
           <Small style={{ color: 'yellow' }}>{JSON.stringify(responseDebug, null, 2)}</Small>
         </ScrollView>
 
-        <Button handleOnPress={() => { }}>
-          {feedbackText}
-        </Button>
+        <Button handleOnPress={() => { }}>{feedbackText}</Button>
       </>
     </Container>
   );
 }
+
+TechNewsRefresh.propTypes = {
+  navigation: PropTypes.shape({
+    setOptions: PropTypes.func.isRequired,
+  }).isRequired,
+};

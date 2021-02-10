@@ -1,38 +1,38 @@
-import React, {
-  createContext,
-  useCallback,
-  useState,
-  useContext,
-  useEffect,
-} from 'react';
+import React, { createContext, useCallback, useState, useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-import { appearance, box, general, cache } from "../assets/definitions.json";
+import { appearance, box, general, cache } from '../assets/definitions.json';
 
-const placeholder = { appearance, box, general, cache };
+const placeholder = {
+  appearance,
+  box,
+  general,
+  cache
+};
 
 const DefinitionsContext = createContext({});
 
 const DefinitionsProvider = ({ children }) => {
   const [data, setData] = useState({
-    'appearance_loadImage': 'always',
-    'appearance_dimensionCaracter': 'default',
-    'appearance_dimensionCaracterArticle': 'default',
-    'appearance_letterType': 'default',
-    'appearance_darkMode': 'false',
-    'box_imageOrientation': 'right',
-    'box_theme': 'material',
-    'general_recent': true,
-    'general_notifications': '12',
-    'general_exit': false,
-    'general_active': true,
-    'general_fullscreen': false,
-    'general_adverts': true,
-    'general_acceleration': false,
-    'general_mobile': true,
-    'cache_clearInterval': '72',
-    'cache_publicity': 'random',
+    appearance_loadImage: 'always',
+    appearance_dimensionCaracter: 'default',
+    appearance_dimensionCaracterArticle: 'default',
+    appearance_letterType: 'default',
+    appearance_darkMode: 'false',
+    box_imageOrientation: 'right',
+    box_theme: 'material',
+    general_recent: true,
+    general_notifications: '12',
+    general_exit: false,
+    general_active: true,
+    general_fullscreen: false,
+    general_adverts: true,
+    general_acceleration: false,
+    general_mobile: true,
+    cache_clearInterval: '72',
+    cache_publicity: 'random'
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, _setLoading] = useState(true);
   const [dataDescription, setDataDescription] = useState({});
 
   useEffect(() => {
@@ -45,18 +45,21 @@ const DefinitionsProvider = ({ children }) => {
         return { name: '' };
       }
 
-      const [option, ...rest] = placeholder[groupDefinition][definition].options
-        .filter(item => item.value === data[name]);
+      const [option] = placeholder[groupDefinition][definition].options.filter(
+        (item) => item.value === data[name]
+      );
 
       return { [name]: option.label };
-    })
+    });
 
-    const returnValue = identifierLabel.reduce((acc, c) => {
-      return Object.entries(c).reduce((a, [k, v]) => {
-        a[k] = (a[k] || []).concat(v)
-        return a
-      }, acc)
-    }, {});
+    const returnValue = identifierLabel.reduce(
+      (acc, c) =>
+        Object.entries(c).reduce((a, [k, v]) => {
+          a[k] = (a[k] || []).concat(v);
+          return a;
+        }, acc),
+      {}
+    );
 
     setDataDescription(returnValue);
   }, [data, setDataDescription]);
@@ -73,7 +76,13 @@ const DefinitionsProvider = ({ children }) => {
 
   return (
     <DefinitionsContext.Provider
-      value={{ definitions: data, descriptions: dataDescription, loading, updateDefinition }}>
+      value={{
+        definitions: data,
+        descriptions: dataDescription,
+        loading,
+        updateDefinition
+      }}
+    >
       {children}
     </DefinitionsContext.Provider>
   );
@@ -88,5 +97,9 @@ function useDefinitions() {
 
   return context;
 }
+
+DefinitionsProvider.propTypes = {
+  children: PropTypes.element.isRequired
+};
 
 export { DefinitionsProvider, useDefinitions };

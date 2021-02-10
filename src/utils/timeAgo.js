@@ -8,13 +8,9 @@ const timeAgo = (date) => {
 
   const now = new Date();
 
-  const timeAgo = formatRelative(
-    parseISO(date),
-    now,
-    { locale }
-  );
+  const formatted = formatRelative(parseISO(date), now, { locale });
 
-  return timeAgo;
-}
+  return formatted;
+};
 
 export default timeAgo;

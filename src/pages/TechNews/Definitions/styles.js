@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export const Container = styled.View`
   padding: 0 0 60px 0;
@@ -29,7 +28,7 @@ export const AsideSwitch = styled.View`
 
 export const Title = styled.Text`
   font-size: 16px;
-  color: #1B75CB;
+  color: #1b75cb;
   margin-vertical: 20px;
   padding-left: 60px;
 `;
