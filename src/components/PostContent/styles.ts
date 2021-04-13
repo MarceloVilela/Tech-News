@@ -19,7 +19,7 @@ export const TextHighlighted = styled.Text`
   font-size: ${values.fontSubTitle.default};
   margin-bottom: ${values.spacing};
   justify-content: center;
-  text-align: center;
+  text-align: left;
 `;
 
 export const Image = styled(AutoHeightImage).attrs(() => ({

@@ -44,56 +44,71 @@ export default function Articles({ navigation, route }: ArticlesProps) {
   const [fineshed, setFineshed] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  const load = useCallback(async (pageNumber = 1, originUrl) => {
-    if (fineshed) {
-      return;
-    }
+  const placeholderData = [...Array(10).keys()].map(({ _data, key }) => ({
+    id: key,
+    link: '',
+    title: '',
+    thumb: '',
+    created_at: new Date().toISOString(),
+    sourceLabel: '',
+    timeAgo: '',
+  }));
 
-    if (refreshing) {
-      return;
-    }
-
-    if (page === pageNumber && pageNumber !== 1) {
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      const url = `/technews/post/origin`;
-      const params = {
-        page: pageNumber,
-        url: originUrl
-      };
-
-      const response = await api.get<IPreview>(url, { params });
-      const { data: result, total } = response.data;
-
-      const add = result.map((item) => ({
-        ...item,
-        timeAgo: item.posted_at ? timeAgo(item.posted_at) : '',
-        sourceLabel: sourceLabel(item.link)
-      }));
-
-      setData((previousValue: IPreviewData[]) => [...previousValue, ...add]);
-      setRefreshing(false);
-      setPage(pageNumber);
-
-      if (pageNumber === Math.ceil(total / 20 ? total / 20 : 1)) {
-        setFineshed(true);
+  const load = useCallback(
+    async (pageNumber = 1, originUrl) => {
+      if (fineshed) {
+        return;
       }
-    } catch (error) {
-      Alert.alert(
-        'Erro ao listar posts',
-        error.data ? JSON.stringify(error.data, null, 2) : error.message
-      );
-    } finally {
-      setLoading(false);
-    }
-  }, [fineshed, page, refreshing]);
+
+      if (refreshing) {
+        return;
+      }
+
+      if (page === pageNumber && pageNumber !== 1) {
+        return;
+      }
+
+      try {
+        setLoading(true);
+
+        const url = `/technews/post/origin`;
+        const params = {
+          page: pageNumber,
+          url: originUrl,
+        };
+
+        const response = await api.get<IPreview>(url, { params });
+        const { data: result, total } = response.data;
+
+        const add = result.map((item) => ({
+          ...item,
+          timeAgo: item.posted_at ? timeAgo(item.posted_at) : '',
+          sourceLabel: sourceLabel(item.link),
+        }));
+
+        setData((previousValue: IPreviewData[]) => [...previousValue, ...add]);
+        setRefreshing(false);
+        setPage(pageNumber);
+
+        if (pageNumber === Math.ceil(total / 20 ? total / 20 : 1)) {
+          setFineshed(true);
+        }
+      } catch (error) {
+        Alert.alert(
+          'Erro ao listar posts',
+          error.data ? JSON.stringify(error.data, null, 2) : error.message
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [fineshed, page, refreshing]
+  );
 
   const isFocused = useNavigationState((state) => {
-    const { key } = state.history ? state.history[state.history.length - 1] as HistoryKey : { key: '' };
+    const { key } = state.history
+      ? (state.history[state.history.length - 1] as HistoryKey)
+      : { key: '' };
     const response = key && key.startsWith(route.name);
     return response;
   });
@@ -137,14 +152,26 @@ export default function Articles({ navigation, route }: ArticlesProps) {
 
   return (
     <Container loading={loading || refreshing}>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <Preview data={item} navigation={navigation} />}
-        onEndReached={() => loadMore()}
-        onEndReachedThreshold={0.1}
-        contentContainerStyle={{ paddingTop: 10 }}
-      />
+      <>
+        <FlatList
+          data={data}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <Preview data={item} navigation={navigation} placeholder={false} />
+          )}
+          onEndReached={() => loadMore()}
+          onEndReachedThreshold={0.1}
+          contentContainerStyle={{ paddingTop: 10 }}
+        />
+
+        {loading && !refreshing && (
+          <>
+            {placeholderData.map((item) => (
+              <Preview data={item} navigation={navigation} placeholder />
+            ))}
+          </>
+        )}
+      </>
     </Container>
   );
 }

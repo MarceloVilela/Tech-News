@@ -63,3 +63,40 @@ export const List = styled.FlatList.attrs({
 })`
   padding-top: 10px;
 `;
+
+export const TitlePlaceholder = styled.View`
+  background: #ccc;
+  height: 40px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  margin-bottom: 32px;
+`;
+
+export const SubTitlePlaceholder = styled.View`
+  background: #ccc;
+  height: 24px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  margin-bottom: 32px;
+`;
+
+export const ThumbPlaceholder = styled.View`
+  background: #ccc;
+  height: 200px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 32px;
+`;
+
+export const TextPlaceholder = styled.View`
+  background: #ccc;
+  height: 16px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 8px;
+`;

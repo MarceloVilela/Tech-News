@@ -82,3 +82,20 @@ export const Action = styled(Icon).attrs(() => ({
   /* border: 1px solid black; */
   margin: 0 3px 0 3px;
 `;
+
+export const TextPlaceholder = styled.View`
+  background: #ccc;
+  height: 20px;
+  width: 120px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 8px;
+`;
+
+export const ThumbPlaceholder = styled.View`
+  background: #ccc;
+  height: 70px;
+  width: 120px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+`;
