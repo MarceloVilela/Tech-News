@@ -12,6 +12,7 @@ import TechNewsDetail from './pages/TechNews/Detail';
 import TechNewsDefinitions from './pages/TechNews/Definitions';
 import TechNewsSocialAuth from './pages/TechNews/SocialAuth';
 import TechNewsRefresh from './pages/TechNews/Refresh';
+import TechNewsPlaceholder from './pages/TechNews/Placeholder';
 
 import HeaderRight from './components/HeaderRight';
 import HeaderRightNewsDetail from './components/HeaderRightNewsDetail';
@@ -23,7 +24,6 @@ export default function App() {
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
-
         <Stack.Screen
           name="TechNewsArticlesTabs"
           component={TechNewsArticlesTabs}
@@ -76,6 +76,16 @@ export default function App() {
             headerStyle: { backgroundColor: '#1B75CB' },
             headerTintColor: '#fff',
             title: 'Refresh'
+          }}
+        />
+
+        <Stack.Screen
+          name="TechNewsPlaceholder"
+          component={TechNewsPlaceholder}
+          options={{
+            headerStyle: { backgroundColor: '#1B75CB' },
+            headerTintColor: '#fff',
+            title: 'Placeholder'
           }}
         />
       </Stack.Navigator>

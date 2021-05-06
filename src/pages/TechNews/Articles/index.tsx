@@ -1,14 +1,15 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList, View, Alert } from 'react-native';
-
 import { useNavigationState } from '@react-navigation/native';
 
 import api from '../../../services/api';
 import { sourceLabel, timeAgo } from '../../../utils';
+
 import Preview from '../../../components/Preview';
 import Container from '../../../components/Container';
 import { IRoute, INavigation } from '../../../RootNavigation';
-
+import jsonbin from '../../../services/jsonbin';
 interface HistoryKey {
   key?: string;
 }
@@ -36,7 +37,7 @@ interface ArticlesProps {
 }
 
 export default function Articles({ navigation, route }: ArticlesProps) {
-  const { id: origin } = route.params;
+  const { id: origin, BIN_ID } = route.params;
 
   const [data, setData] = useState([] as IPreviewData[]);
   const [page, setPage] = useState(1);
@@ -54,6 +55,27 @@ export default function Articles({ navigation, route }: ArticlesProps) {
     timeAgo: '',
   }));
 
+  // Provisional version while heroku wake up
+  const loadCache = useCallback(async (jsonbinId) => {
+    try {
+      const { data: responseData } = await jsonbin(jsonbinId);
+      const { data: result } = responseData.record;
+
+      const add = result.map((item) => ({
+        ...item,
+        timeAgo: item.posted_at ? timeAgo(item.posted_at) : '',
+        sourceLabel: sourceLabel(item.link),
+      }));
+
+      setData((previousValue: IPreviewData[]) => [...previousValue, ...add]);
+    } catch (error) {
+      Alert.alert(
+        'Erro ao listar jsonbin',
+        error.data ? JSON.stringify(error.data, null, 2) : error.message
+      );
+    }
+  }, []);
+
   const load = useCallback(
     async (pageNumber = 1, originUrl) => {
       if (fineshed) {
@@ -65,6 +87,10 @@ export default function Articles({ navigation, route }: ArticlesProps) {
       }
 
       if (page === pageNumber && pageNumber !== 1) {
+        return;
+      }
+
+      if (pageNumber === 1) {
         return;
       }
 
@@ -115,17 +141,20 @@ export default function Articles({ navigation, route }: ArticlesProps) {
 
   // when starting page
   useEffect(() => {
-    setData([]);
+    // setData([]);
     setPage(1);
     setLoading(false);
     setFineshed(false);
     setRefreshing(false);
   }, []);
+
   useEffect(() => {
     if (isFocused && data.length === 0) {
+      loadCache(BIN_ID);
+
       load(page, origin);
     }
-  }, [navigation, isFocused, data.length, load, origin, page]);
+  }, [navigation, isFocused, data.length, load, loadCache, origin, BIN_ID, page]);
 
   // infinite scroll
   const loadMore = useCallback(() => {
@@ -164,12 +193,13 @@ export default function Articles({ navigation, route }: ArticlesProps) {
           contentContainerStyle={{ paddingTop: 10 }}
         />
 
-        {loading && !refreshing && (
-          <>
+        {((loading && !refreshing) || data.length === 0) && (
+          <View style={{ marginTop: 16 }}>
+
             {placeholderData.map((item) => (
               <Preview data={item} navigation={navigation} placeholder />
             ))}
-          </>
+          </View>
         )}
       </>
     </Container>

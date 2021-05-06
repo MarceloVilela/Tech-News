@@ -1,5 +1,6 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import env from '../env';
 
 //import { View } from 'react-native';
 import { origins } from './assets/origins.json';
@@ -36,14 +37,14 @@ function TechNewsArticlesTabs() {
       <Tab.Screen
         name="recentes"
         component={OriginArticles}
-        initialParams={{ id: '' }}
+        initialParams={{ id: '', BIN_ID: env.jsonbinDocIdRecents }}
         options={{ tabBarLabel: 'MAIS RECENTES' }}
       />
-      {origins.map(({ title, url }) => (
+      {origins.map(({ title, url, BIN_ID }) => (
         <Tab.Screen
           name={title}
           component={OriginArticles}
-          initialParams={{ id: url, tabTitle: title }}
+          initialParams={{ id: url, tabTitle: title, BIN_ID }}
           options={{ tabBarLabel: title }}
           key={url}
         />

@@ -31,6 +31,7 @@ export function setOptions(options: OptionsParams) {
 interface RouteParams {
   url?: string;
   id?: string;
+  BIN_ID?: string;
 }
 
 export interface IRoute {

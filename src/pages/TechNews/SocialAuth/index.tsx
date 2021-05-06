@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import { View, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -69,7 +70,8 @@ export default function SocialAuth({ navigation }: SocialAuthProps) {
           height: '100%',
           justifyContent: 'center',
           paddingHorizontal: 20,
-          backgroundColor: '#ccc'
+          backgroundColor: '#ccc',
+          justifyContent: 'space-around',
         }}
       >
         {userEmail ? (
@@ -78,12 +80,17 @@ export default function SocialAuth({ navigation }: SocialAuthProps) {
               title="Buscar novos artigos"
               onPress={() => navigate('TechNewsRefresh', {})}
             />
+
+            <Button
+              title="Atualizar placeholder"
+              onPress={() => navigate('TechNewsPlaceholder', {})}
+            />
           </>
         ) : (
-            <>
-              <Button title="Google" onPress={handleGoogleLoginPress} />
-            </>
-          )}
+          <>
+            <Button title="Google" onPress={handleGoogleLoginPress} />
+          </>
+        )}
       </View>
     </View>
   );
