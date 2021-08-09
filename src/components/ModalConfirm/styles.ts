@@ -14,14 +14,14 @@ export const Option = styled.TouchableOpacity`
 export const OptionLabel = styled.Text`
   font-size: 20px;
   font-weight: 100;
-  color: #262626;
+  color: ${(props) => props.theme.foreground600};
   margin-left: 20px;
 `;
 
 export const MessageConfirm = styled.Text`
   font-size: 18px;
   font-weight: 100;
-  color: #262626;
+  color: ${(props) => props.theme.foreground600};
   margin-left: 20px;
   margin-bottom: 60px;
 `;
@@ -41,7 +41,7 @@ export const ModalContent = styled.View`
   /*flex: 1;*/
   width: 100%;
   padding: 8px;
-  background-color: #fff;
+  background-color: ${(props) => props.theme.background600};
   border-radius: 8px;
 `;
 
@@ -56,7 +56,7 @@ export const ModalHeader = styled.View`
 export const ModalIcon = styled(Icon).attrs((props: StyledPropsModalIcon) => ({
   name: props.name,
   size: 40,
-  color: '#CCC'
+  color: props.theme.foreground300,
 }))`
   padding: 20px 20px 0 0;
   height: 80px;
@@ -65,7 +65,7 @@ export const ModalIcon = styled(Icon).attrs((props: StyledPropsModalIcon) => ({
 export const ModalTitle = styled.Text`
   font-size: 20px;
   font-weight: 100;
-  color: #151515;
+  color: ${(props) => props.theme.foreground300};
 
   flex: 1;
 `;

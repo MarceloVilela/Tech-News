@@ -125,6 +125,7 @@ export default function TechNewsRefresh({ navigation }: TechNewsRefreshProps) {
 
         const responsesFiltered = response
           .filter(({ data: item }) => item.link && item.thumb)
+          .filter(({ data: item }) => item.link.includes('http') && item.thumb.includes('http'))
           .filter(({ data: item }) => isValidArticle(item));
 
         setFeedbackText('Armazenando post...');

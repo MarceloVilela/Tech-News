@@ -12,6 +12,8 @@ web-report/
 
 #
 *copy*.ts
+*.txt
+*.rar
 
 # macOS
 .DS_Store

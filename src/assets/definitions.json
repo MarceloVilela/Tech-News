@@ -23,43 +23,43 @@
       "options": [
         {
           "label": "Predefinido",
-          "value": "default"
+          "value": "14px"
         },
         {
           "label": "12",
-          "value": "12"
+          "value": "12px"
         },
         {
           "label": "14",
-          "value": "14"
+          "value": "14px"
         },
         {
           "label": "16",
-          "value": "16"
+          "value": "16px"
         },
         {
           "label": "18",
-          "value": "18"
+          "value": "18px"
         },
         {
           "label": "20",
-          "value": "20"
+          "value": "20px"
         },
         {
           "label": "22",
-          "value": "22"
+          "value": "22px"
         },
         {
           "label": "24",
-          "value": "24"
+          "value": "24px"
         },
         {
           "label": "36",
-          "value": "36"
+          "value": "36px"
         },
         {
           "label": "48",
-          "value": "48"
+          "value": "48px"
         }
       ],
       "identifier": "appearance_dimensionCaracter"
@@ -69,43 +69,43 @@
       "options": [
         {
           "label": "Predefinido",
-          "value": "default"
+          "value": "16px"
         },
         {
           "label": "12",
-          "value": "12"
+          "value": "12px"
         },
         {
           "label": "14",
-          "value": "14"
+          "value": "14px"
         },
         {
           "label": "16",
-          "value": "16"
+          "value": "16px"
         },
         {
           "label": "18",
-          "value": "18"
+          "value": "18px"
         },
         {
           "label": "20",
-          "value": "20"
+          "value": "20px"
         },
         {
           "label": "22",
-          "value": "22"
+          "value": "22px"
         },
         {
           "label": "24",
-          "value": "24"
+          "value": "24px"
         },
         {
           "label": "36",
-          "value": "36"
+          "value": "36px"
         },
         {
           "label": "48",
-          "value": "48"
+          "value": "48px"
         }
       ],
       "identifier": "appearance_dimensionCaracterArticle"

@@ -6,6 +6,7 @@ export const Wrap = styled.ScrollView.attrs({
   contentContainerStyle: { padding: 20 }
 })`
   /*align-self: stretch;*/
+  background-color: ${(props) => props.theme.background600};
 `;
 
 interface StyledPropsFontSize {
@@ -37,6 +38,7 @@ export const SourceLabel = styled.Text`
     values.fontSubTitle[props.fontSize]
       ? values.fontSubTitle[props.fontSize]
       : values.fontSubTitle.default};
+  color: ${(props) => props.theme.foreground300};
 `;
 
 export const SourceValue = styled.Text`

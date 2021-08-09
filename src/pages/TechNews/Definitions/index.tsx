@@ -4,15 +4,16 @@ import { ScrollView, Linking, Alert } from 'react-native';
 import { navigate } from '../../../RootNavigation';
 import { useDefinitions } from '../../../hooks/definitions';
 import { appearance, box, general, cache } from '../../../assets/definitions.json';
-import { Container, ModalConfirm, ModalPrompt, Switch as SwitchStyled } from '../../../components';
+import { ModalConfirm, ModalPrompt, Switch as SwitchStyled } from '../../../components';
 import {
+  Container,
   Fieldset,
   Title,
   Label,
   Description,
   Definition,
   DefinitionSwitch,
-  AsideSwitch
+  AsideSwitch,
 } from './styles';
 
 export default function TechNewsDefinitions() {
@@ -67,7 +68,7 @@ export default function TechNewsDefinitions() {
   };
 
   return (
-    <Container style={{ backgroundColor: '#FFF' }}>
+    <Container>
       <>
         <ScrollView style={{ paddingTop: 10, paddingBottom: 60, paddingHorizontal: 16 }}>
           <Fieldset>
@@ -80,7 +81,9 @@ export default function TechNewsDefinitions() {
 
             <Definition onPress={() => handleOpenModal({ ...appearance.dimensionCaracter })}>
               <Label>Dimensão padrão caracter</Label>
-              <Description>{currentDescription[appearance.dimensionCaracter.identifier]}</Description>
+              <Description>
+                {currentDescription[appearance.dimensionCaracter.identifier]}
+              </Description>
             </Definition>
 
             <Definition onPress={() => handleOpenModal({ ...appearance.dimensionCaracterArticle })}>
@@ -124,14 +127,14 @@ export default function TechNewsDefinitions() {
                 <Description>
                   Fazer com que a primeira aba mostre as notícias mais recentes de todos os sites
                   ativos
-              </Description>
+                </Description>
               </AsideSwitch>
               <SwitchStyled
                 isEnabled={!!definitions[general.recent.identifier]}
                 onValueChange={() =>
                   handleChangeDefinition({
                     name: general.recent.identifier,
-                    value: !definitions[general.recent.identifier]
+                    value: !definitions[general.recent.identifier],
                   })}
                 value={!!definitions[general.recent.identifier]}
               />
@@ -152,7 +155,7 @@ export default function TechNewsDefinitions() {
                 onValueChange={() =>
                   handleChangeDefinition({
                     name: general.exit.identifier,
-                    value: !definitions[general.exit.identifier]
+                    value: !definitions[general.exit.identifier],
                   })}
                 value={!!definitions[general.exit.identifier]}
               />
@@ -168,7 +171,7 @@ export default function TechNewsDefinitions() {
                 onValueChange={() =>
                   handleChangeDefinition({
                     name: general.active.identifier,
-                    value: !definitions[general.active.identifier]
+                    value: !definitions[general.active.identifier],
                   })}
                 value={!!definitions[general.active.identifier]}
               />
@@ -184,7 +187,7 @@ export default function TechNewsDefinitions() {
                 onValueChange={() =>
                   handleChangeDefinition({
                     name: general.fullscreen.identifier,
-                    value: !definitions[general.fullscreen.identifier]
+                    value: !definitions[general.fullscreen.identifier],
                   })}
                 value={!!definitions[general.fullscreen.identifier]}
               />
@@ -200,7 +203,7 @@ export default function TechNewsDefinitions() {
                 onValueChange={() =>
                   handleChangeDefinition({
                     name: general.adverts.identifier,
-                    value: !definitions[general.adverts.identifier]
+                    value: !definitions[general.adverts.identifier],
                   })}
                 value={!!definitions[general.adverts.identifier]}
               />
@@ -211,14 +214,14 @@ export default function TechNewsDefinitions() {
                 <Label>Desative a aceleração de HW</Label>
                 <Description>
                   Melhore a estabilidade da aplicação desativando a aceleração gráfica de hardware
-              </Description>
+                </Description>
               </AsideSwitch>
               <SwitchStyled
                 isEnabled={!!definitions[general.acceleration.identifier]}
                 onValueChange={() =>
                   handleChangeDefinition({
                     name: general.acceleration.identifier,
-                    value: !definitions[general.acceleration.identifier]
+                    value: !definitions[general.acceleration.identifier],
                   })}
                 value={!!definitions[general.acceleration.identifier]}
               />
@@ -234,7 +237,7 @@ export default function TechNewsDefinitions() {
                 onValueChange={() =>
                   handleChangeDefinition({
                     name: general.mobile.identifier,
-                    value: !definitions[general.mobile.identifier]
+                    value: !definitions[general.mobile.identifier],
                   })}
                 value={!!definitions[general.mobile.identifier]}
               />

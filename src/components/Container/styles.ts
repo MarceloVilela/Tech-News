@@ -8,7 +8,7 @@ export const Wrap = styled.View`
   flex: 1;
   /*padding: 80px 30px 0 30px;
   padding: ${(props: StyledPropsWrap) => (props.scrollEnabled ? '0px 30px 0 30px' : '120px 30px 0 30px')};*/
-  background-color: #ccc;
+  background-color: ${(props) => props.theme.background300};
 `;
 
 export const WrapLoading = styled.View`

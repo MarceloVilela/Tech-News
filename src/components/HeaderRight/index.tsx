@@ -14,12 +14,17 @@ import {
   ModalContent,
   ModalFooter,
   SwitchTouchable,
-  SwitchOption
+  SwitchOption,
 } from './styles';
 import { placeholder } from './textPlaceholder';
 import { TouchableOpacity } from '../Button/styles';
+import { day, night } from '../../styles';
+import { useDefinitions } from '../../hooks/definitions';
 
 export default function HeaderRight() {
+  const { definitions } = useDefinitions();
+  const theme = definitions?.appearance_darkMode === 'true' ? night : day;
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalChangelogVisible, setModalChangelogVisible] = useState(false);
 
@@ -54,38 +59,45 @@ export default function HeaderRight() {
         <MenuTrigger>
           <ActionConfig name="more-vert" />
         </MenuTrigger>
-        <MenuOptions>
+        <MenuOptions style={{ backgroundColor: theme.background500 }}>
           <MenuOption onSelect={handleSendFeedBack}>
-            <OptionText>Enviar Feedback</OptionText>
+            <OptionText style={{ color: theme.foreground500 }}>Enviar Feedback</OptionText>
           </MenuOption>
           <MenuOption onSelect={handleNavigateToDefinitions}>
-            <OptionText>Definições...</OptionText>
+            <OptionText style={{ color: theme.foreground500 }}>Definições...</OptionText>
           </MenuOption>
           <MenuOption onSelect={() => setModalChangelogVisible(true)}>
-            <OptionText>ChangeLog</OptionText>
+            <OptionText style={{ color: theme.foreground500 }}>ChangeLog</OptionText>
           </MenuOption>
           <MenuOption onSelect={handleSendStore}>
-            <OptionText>Imprensa de Bolso App</OptionText>
+            <OptionText style={{ color: theme.foreground500 }}>Imprensa de Bolso App</OptionText>
           </MenuOption>
           {/* <MenuOption onSelect={handleNavigateToRefresh}><OptionText>Refresh</OptionText></MenuOption> */}
           <MenuOption onSelect={() => Alert.alert('Sair')}>
-            <OptionText>Sair</OptionText>
+            <OptionText style={{ color: theme.foreground500 }}>Sair</OptionText>
           </MenuOption>
         </MenuOptions>
       </Menu>
 
       <Modal animationType="slide" transparent visible={modalVisible}>
         <ModalContainer>
-          <ModalContent>
-            <ModalTitle>Mudar para feed</ModalTitle>
+          <ModalContent style={{ backgroundColor: theme.background500 }}>
+            <ModalTitle style={{ color: theme.foreground600 }}>Mudar para feed</ModalTitle>
 
             <ScrollView>
-              <SwitchTouchable onPress={() => handleSwitchToFeed({ url: '', title: 'recentes' })}>
-                <SwitchOption>Mais recentes</SwitchOption>
+              <SwitchTouchable 
+                onPress={() => handleSwitchToFeed({ url: '', title: 'recentes' })}
+                style={{ borderColor: theme.foreground600 }}
+              >
+                <SwitchOption style={{ color: theme.foreground500 }}>Mais recentes</SwitchOption>
               </SwitchTouchable>
               {origins.map(({ title, url }) => (
-                <SwitchTouchable key={url} onPress={() => handleSwitchToFeed({ url, title })}>
-                  <SwitchOption>{title}</SwitchOption>
+                <SwitchTouchable
+                  key={url}
+                  onPress={() => handleSwitchToFeed({ url, title })}
+                  style={{ borderColor: theme.foreground600 }}
+                >
+                  <SwitchOption style={{ color: theme.foreground500 }}>{title}</SwitchOption>
                 </SwitchTouchable>
               ))}
             </ScrollView>
@@ -115,6 +127,6 @@ export default function HeaderRight() {
           </ModalContent>
         </ModalContainer>
       </Modal>
-    </Container>
+    </Container >
   );
 }

@@ -5,11 +5,16 @@ import env from '../env';
 //import { View } from 'react-native';
 import { origins } from './assets/origins.json';
 import OriginArticles from './pages/TechNews/Articles';
+import { useDefinitions } from './hooks/definitions';
+import { day, night } from './styles';
 
 const Tab = createMaterialTopTabNavigator();
 //const lazyPlaceholder = () => <View />;
 
 function TechNewsArticlesTabs() {
+  const { definitions } = useDefinitions();
+  const theme = definitions?.appearance_darkMode === 'true' ? night : day;
+
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -17,21 +22,19 @@ function TechNewsArticlesTabs() {
         //lazy: true,
         //renderLazyPlaceholder: lazyPlaceholder,
         indicatorStyle: {
-          backgroundColor: '#1B75CB'
+          backgroundColor: theme.primary400,
         },
         style: {
           elevation: 0,
           shadowOpacity: 0,
-          backgroundColor: '#1B75CB'
+          backgroundColor: theme.primary400,
         },
         labelStyle: {
-          fontSize: 14,
+          fontSize: 12,
           margin: 0
         },
-        //inactiveBackgroundColor: '#1B75CB',
-        //activeBackgroundColor: '#1B75CB',
         inactiveTintColor: '#aaa',
-        activeTintColor: '#eee'
+        activeTintColor: '#eee',
       }}
     >
       <Tab.Screen

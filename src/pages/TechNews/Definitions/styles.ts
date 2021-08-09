@@ -1,6 +1,11 @@
 import styled from 'styled-components/native';
+import { Container as ContainerComponent } from '../../../components';
 
-export const Container = styled.View`
+export const Container = styled(ContainerComponent).attrs({})`
+  background: ${(props) => props.theme.background500};
+`;
+
+export const Container_ = styled.View`
   padding: 0 0 60px 0;
   border: 1px solid #eee;
 `;
@@ -36,10 +41,10 @@ export const Title = styled.Text`
 export const Label = styled.Text`
   font-size: 18px;
   font-weight: 100;
-  color: #262626;
+  color: ${(props) => props.theme.foreground300};
 `;
 
 export const Description = styled.Text`
   font-size: 16px;
-  color: #999;
+  color: ${(props) => props.theme.foreground600};
 `;

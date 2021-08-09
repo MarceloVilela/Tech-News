@@ -87,7 +87,7 @@ const DefinitionsProvider = ({ children }: DefinitionsProviderParams) => {
         definitions: data,
         descriptions: dataDescription,
         loading,
-        updateDefinition
+        updateDefinition,
       }}
     >
       {children}
