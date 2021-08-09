@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import values from '../../styles';
 import { Text, TextHighlighted, Image } from './styles';
+import { useDefinitions } from '../../hooks/definitions';
 
 interface ContentProps {
   content: string;
@@ -12,6 +13,7 @@ interface ContentProps {
 interface ContentResizable {
   content: string;
   fontSize: 'smaller' | 'small' | 'default' | 'big' | 'bigger';
+  fontSizeDefinition: string;
 }
 
 interface Render {
@@ -29,10 +31,12 @@ interface PostContentProps {
   fontSize: 'smaller' | 'small' | 'default' | 'big' | 'bigger';
 }
 
-function text({ content, fontSize }: ContentResizable): JSX.Element {
-  const font = values.fontParagraph[fontSize]
+function text({ content, fontSize, fontSizeDefinition }: ContentResizable): JSX.Element {
+  let font = values.fontParagraph[fontSize]
     ? values.fontParagraph[fontSize]
     : values.fontParagraph.default;
+
+  font = fontSize === 'default' && fontSizeDefinition.includes('px') ? fontSizeDefinition : font;
   return <Text fontSize={font}>{content}</Text>;
 }
 
@@ -68,10 +72,15 @@ const render: Render = {
 const _enumFontSize = Object.keys(values.fontParagraph);
 
 export default function PostContent({ data, fontSize }: PostContentProps): JSX.Element {
+  const { definitions } = useDefinitions();
+
   if (!render[data.type]) {
     return <Text>{data.value}</Text>;
   }
 
-  return render[data.type]({ content: data.value, fontSize });
+  return render[data.type]({
+    content: data.value,
+    fontSize,
+    fontSizeDefinition: definitions.appearance_dimensionCaracterArticle
+  });
 }
-

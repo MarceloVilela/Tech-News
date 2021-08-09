@@ -6,12 +6,15 @@ import values from '../../styles';
 
 interface StyledPropsFontSize {
   fontSize: 'smaller' | 'small' | 'default' | 'big' | 'bigger';
+  fontSizeDefinition: string;
 }
 
 export const Text = styled.Text`
   font-size: ${(props: StyledPropsFontSize) => props.fontSize ? String(props.fontSize) : '16px'};
+  /* font-size: ${(props: StyledPropsFontSize) => props.fontSize ? String(props.fontSize) : '16px'}; */
   margin-bottom: ${values.spacing};
-  text-align: justify;
+  /* text-align: justify; */
+  color: ${(props) => props.theme.foreground500};
 `;
 
 export const TextHighlighted = styled.Text`

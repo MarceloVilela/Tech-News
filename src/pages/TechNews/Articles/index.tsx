@@ -10,6 +10,7 @@ import Preview from '../../../components/Preview';
 import Container from '../../../components/Container';
 import { IRoute, INavigation } from '../../../RootNavigation';
 import jsonbin from '../../../services/jsonbin';
+import { useDefinitions } from '../../../hooks/definitions';
 interface HistoryKey {
   key?: string;
 }
@@ -37,6 +38,9 @@ interface ArticlesProps {
 }
 
 export default function Articles({ navigation, route }: ArticlesProps) {
+  const { definitions } = useDefinitions();
+  const fontSizeDefinition = definitions.appearance_dimensionCaracter;
+  const fontSizeSubtitle = Number(fontSizeDefinition.replace('px', '')) - 4 + 'px';
   const { id: origin, BIN_ID } = route.params;
 
   const [data, setData] = useState([] as IPreviewData[]);
@@ -186,7 +190,13 @@ export default function Articles({ navigation, route }: ArticlesProps) {
           data={data}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
-            <Preview data={item} navigation={navigation} placeholder={false} />
+            <Preview
+              data={item}
+              navigation={navigation}
+              placeholder={false}
+              fontSize={`${fontSizeDefinition}`}
+              fontSizeSubtitle={fontSizeSubtitle}
+            />
           )}
           onEndReached={() => loadMore()}
           onEndReachedThreshold={0.1}
