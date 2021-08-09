@@ -12,6 +12,7 @@ import {
   Time,
   TextPlaceholder,
   ThumbPlaceholder,
+  ThumbContainer,
 } from './styles';
 import { IPreviewData } from '../../pages/TechNews/Articles';
 import { INavigation } from '../../RootNavigation';
@@ -20,9 +21,11 @@ interface PreviewParams {
   data: IPreviewData;
   navigation: INavigation;
   placeholder: boolean;
+  fontSize: string;
+  fontSizeSubtitle: string;
 }
 
-const Preview = ({ data, navigation, placeholder = true }: PreviewParams) => (
+const Preview = ({ data, navigation, placeholder = true, fontSize, fontSizeSubtitle }: PreviewParams) => (
   <>
     {!placeholder ? (
       <TouchableOpacity
@@ -31,15 +34,17 @@ const Preview = ({ data, navigation, placeholder = true }: PreviewParams) => (
         }}
       >
         <Container>
-          <Header>
-            <Title>{data.title}</Title>
-            <Thumb source={{ uri: data.thumb }} />
+          <Header orientation="right">
+            <ThumbContainer orientation="right">
+              <Thumb source={{ uri: data.thumb }} orientation="right" />
+            </ThumbContainer>
+            <Title fontSize={fontSize}>{data.title}</Title>
           </Header>
 
           <Footer>
-            <Identifier>{data.sourceLabel}</Identifier>
+            <Identifier fontSizeSubtitle={fontSizeSubtitle}>{data.sourceLabel}</Identifier>
             <RightFooter>
-              <Time>{data.timeAgo}</Time>
+              <Time fontSizeSubtitle={fontSizeSubtitle}>{data.timeAgo}</Time>
             </RightFooter>
           </Footer>
         </Container>

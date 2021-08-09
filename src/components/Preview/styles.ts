@@ -9,9 +9,9 @@ interface StyledPropsFirstStyle {
 export const Container = styled.View`
   margin: 0 10px 10px 10px;
   padding: 15px;
-  border: 1px solid #eee;
+  border: 1px solid ${(props) => props.theme.background500};
   border-radius: 8px;
-  background: #fff;
+  background: ${(props) => props.theme.background500};
 
   display: flex;
   flex-direction: column;
@@ -23,38 +23,54 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${(props) => (props.orientation === 'right' ? 'row-reverse' : 'row')};
   /* border: 1px solid red; */
   margin-bottom: 10px;
+  flex-wrap: wrap;
+  max-height: 140px;
+  max-height: ${(props) => (props.orientation === 'over' ? 221 : 80)};
+  overflow: hidden;
 `;
 
 export const Title = styled.Text`
   /*font-weight: bold;*/
   font-size: 16px;
-  color: #151515;
+  font-size: ${(props) => (props.fontSize.includes('px') ? props.fontSize : '16px')};
+  line-height: ${(props) => (props.fontSize.includes('px') ? props.fontSize : '16px')};
+  color: ${(props) => props.theme.foreground300};
   flex: 1;
+`;
+
+export const ThumbContainer = styled.View`
+  width: ${(props) => (props.orientation === 'over' ? '100%' : '138px')};
+  margin-bottom: 8px;
+  align-items: ${(props) => (props.orientation === 'over' ? 'center' : 'flex-start')};
 `;
 
 export const Thumb = styled(AutoHeightImage).attrs(() => ({
   width: 128,
-  minHeight: 72
+  minHeight: 72,
 }))`
+  width: ${(props) => (props.orientation === 'over' ? 256 : 128)};
+  height: ${(props) => (props.orientation === 'over' ? 144 : 72)};
   border-radius: 8px;
   border-width: 8px;
-  margin-left: 10px;
 `;
 
 export const Footer = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
-  /* border: 1px solid green; */
 `;
 
 export const Identifier = styled.Text`
   /*font-weight: bold;*/
   font-size: 12px;
-  color: #808080;
+  font-size: ${(props) =>
+    props.fontSizeSubtitle.includes('px') ? props.fontSizeSubtitle : '16px'};
+  line-height: ${(props) =>
+    props.fontSizeSubtitle.includes('px') ? props.fontSizeSubtitle : '16px'};
+  color: ${(props) => props.theme.foreground600};
 `;
 
 export const RightFooter = styled.View`
@@ -69,14 +85,18 @@ export const RightFooter = styled.View`
 export const Time = styled.Text`
   /*font-weight: bold;*/
   font-size: 12px;
-  color: #808080;
+  font-size: ${(props) =>
+    props.fontSizeSubtitle.includes('px') ? props.fontSizeSubtitle : '16px'};
+  line-height: ${(props) =>
+    props.fontSizeSubtitle.includes('px') ? props.fontSizeSubtitle : '16px'};
+  color: ${(props) => props.theme.foreground600};
   /* border: 1px solid black; */
 `;
 
 export const Action = styled(Icon).attrs(() => ({
   name: 'more-vert',
   size: 25,
-  color: '#151515'
+  color: '#151515',
   // contentContainerStyle: { padding: 30 },
 }))`
   /* border: 1px solid black; */
