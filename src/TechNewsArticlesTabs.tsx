@@ -14,6 +14,7 @@ const Tab = createMaterialTopTabNavigator();
 function TechNewsArticlesTabs() {
   const { definitions } = useDefinitions();
   const theme = definitions?.appearance_darkMode === 'true' ? night : day;
+  const recent = definitions?.general_recent;
 
   return (
     <Tab.Navigator
@@ -37,12 +38,14 @@ function TechNewsArticlesTabs() {
         activeTintColor: '#eee',
       }}
     >
-      <Tab.Screen
-        name="recentes"
-        component={OriginArticles}
-        initialParams={{ id: '', BIN_ID: env.jsonbinDocIdRecents }}
-        options={{ tabBarLabel: 'MAIS RECENTES' }}
-      />
+      {recent && (
+        <Tab.Screen
+          name="recentes"
+          component={OriginArticles}
+          initialParams={{ id: '', BIN_ID: env.jsonbinDocIdRecents }}
+          options={{ tabBarLabel: 'MAIS RECENTES' }}
+        />
+      )}
       {origins.map(({ title, url, BIN_ID }) => (
         <Tab.Screen
           name={title}
