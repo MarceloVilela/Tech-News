@@ -8,6 +8,7 @@ import { useDefinitions } from '../../hooks/definitions';
 
 interface ContentProps {
   content: string;
+  loadImage?: boolean;
 }
 
 interface ContentResizable {
@@ -29,23 +30,31 @@ interface PostContentProps {
     value: string;
   }
   fontSize: 'smaller' | 'small' | 'default' | 'big' | 'bigger';
+  fontWeight: 'normal' | 'bold';
+  loadImage: boolean;
 }
 
-function text({ content, fontSize, fontSizeDefinition }: ContentResizable): JSX.Element {
+function text({ content, fontSize, fontSizeDefinition, fontWeight }: ContentResizable): JSX.Element {
   let font = values.fontParagraph[fontSize]
     ? values.fontParagraph[fontSize]
     : values.fontParagraph.default;
 
   font = fontSize === 'default' && fontSizeDefinition.includes('px') ? fontSizeDefinition : font;
-  return <Text fontSize={font}>{content}</Text>;
+  const _fontWeight = fontWeight === 'bold' ? 'bold' : 'normal';
+
+  return (
+    <Text fontSize={font} fontWeight={_fontWeight}>
+      {content}
+    </Text>
+  );
 }
 
 function text_highlighted({ content }: ContentProps): JSX.Element {
   return <TextHighlighted>{content}</TextHighlighted>;
 }
 
-function image({ content }: ContentProps): JSX.Element {
-  return <Image source={{ uri: content }} />;
+function image({ content, loadImage }: ContentProps): JSX.Element {
+  return loadImage ? <Image source={{ uri: content }} /> : <Text>{content}</Text>;
 }
 
 function video({ content }: ContentProps): JSX.Element {
@@ -59,7 +68,7 @@ function video({ content }: ContentProps): JSX.Element {
       />
     ); */
   }
-  return <Text></Text>;
+  return <Text>{content}</Text>;
 }
 
 const render: Render = {
@@ -71,7 +80,7 @@ const render: Render = {
 
 const _enumFontSize = Object.keys(values.fontParagraph);
 
-export default function PostContent({ data, fontSize }: PostContentProps): JSX.Element {
+export default function PostContent({ data, fontSize, loadImage }: PostContentProps): JSX.Element {
   const { definitions } = useDefinitions();
 
   if (!render[data.type]) {
@@ -81,6 +90,8 @@ export default function PostContent({ data, fontSize }: PostContentProps): JSX.E
   return render[data.type]({
     content: data.value,
     fontSize,
-    fontSizeDefinition: definitions.appearance_dimensionCaracterArticle
+    fontSizeDefinition: definitions.appearance_dimensionCaracterArticle,
+    fontWeight: definitions.appearance_letterType,
+    loadImage,
   });
 }

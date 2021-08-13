@@ -28,6 +28,7 @@ export const Title = styled.Text`
 
 export const Source = styled.View`
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   margin-bottom: ${values.spacing};
 `;

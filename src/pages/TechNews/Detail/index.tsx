@@ -3,6 +3,7 @@ import { View, Dimensions, Linking, Alert, ActivityIndicator } from 'react-nativ
 import WebView from 'react-native-webview';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import AutoHeightImage from 'react-native-auto-height-image';
+import NetInfo from '@react-native-community/netinfo';
 
 import api from '../../../services/api';
 import placeholder from '../../../assets/techNews/post/olhardigital/data.json';
@@ -21,6 +22,7 @@ import {
   ThumbPlaceholder,
   TextPlaceholder,
 } from './styles';
+import { useDefinitions } from '../../../hooks/definitions';
 interface Content {
   type: "text" | "video" | "image" | "text_highlighted";
   value: string;
@@ -51,12 +53,36 @@ const url_default =
   'https://olhardigital.com.br/ciencia-e-espaco/noticia/spacex-coloca-novo-prototipo-da-starship-na-plataforma-de-lancamento/105118';
 
 function TechNewsDetail({ route, navigation, url_sample = url_default }: TechNewsDetailsParams) {
+  const { definitions } = useDefinitions();
+  const definitionLoadImage = `${definitions.appearance_loadImage}`;
+
   const { url } = route.params ? route.params : { url: placeholder.link };
 
   const { fontSize, renderMode, shareIsPending, setShareIsPending } = useDetailActions();
   const [data, setData] = useState({} as ArticleDetails);
   const [includesVideo, setIncludesVideo] = useState(false);
   const [_loading, setLoading] = useState(false);
+  const [connectionType, setConnectionType] = useState('');
+
+  useEffect(() => {
+    NetInfo.fetch().then((state) => {
+      setConnectionType(state.type);
+    });
+  }, []);
+
+  const loadImage = useMemo(() => {
+    if (definitionLoadImage === 'never') {
+      return false;
+    }
+    if (definitionLoadImage === 'wifi') {
+      if (connectionType === 'wifi') {
+        return true;
+      }
+      return false;
+    }
+    // always
+    return true;
+  }, [definitionLoadImage, connectionType]);
 
   const load = useCallback(
     async (urlOfOriginalPost = url_sample) => {
@@ -67,7 +93,8 @@ function TechNewsDetail({ route, navigation, url_sample = url_default }: TechNew
           url: urlOfOriginalPost
         };
 
-        const { data: post } = await api.get<ArticleDetails>(urlListHome, { params });
+        //const { data: post } = await api.get<ArticleDetails>(urlListHome, { params });
+        const post = placeholder;
 
         const hasVideo = post.contents.filter(({ type }) => type === 'video').length > 0;
         setIncludesVideo(hasVideo);
@@ -142,20 +169,36 @@ function TechNewsDetail({ route, navigation, url_sample = url_default }: TechNew
       <Title fontSize={fontSize}>{data.title}</Title>
 
       <Source>
-        <SourceLabel fontSize={fontSize}>origem:</SourceLabel>
+        <SourceLabel fontSize={fontSize}>origem: </SourceLabel>
         <TouchableHighlight onPress={() => { }} activeOpacity={0.5} underlayColor="#a5cdf3">
           <SourceValue fontSize={fontSize}>{sourceLabel}</SourceValue>
         </TouchableHighlight>
       </Source>
 
-      <AutoHeightImage
-        width={imageWidth}
-        source={{ uri: data.thumb }}
-        style={{ marginBottom: 16 }}
-      />
+      {loadImage ? (
+        <AutoHeightImage
+          width={imageWidth}
+          source={{ uri: data.thumb }}
+          style={{ marginBottom: 16 }}
+        />
+      ) : (
+        <>
+          <ThumbPlaceholder style={{ width: imageWidth }} />
+          <PostContent
+            data={{ value: data.thumb, type: 'text' }}
+            fontSize={fontSize}
+            loadImage={false}
+          />
+        </>
+      )}
 
       {data.contents.map((item) => (
-        <PostContent key={item.key} data={item} fontSize={fontSize} />
+        <PostContent
+          key={item.key}
+          data={item}
+          fontSize={fontSize}
+          loadImage={loadImage}
+        />
       ))}
 
       <TouchableHighlight onPress={() => { }} activeOpacity={0.5} underlayColor="#a5cdf3">

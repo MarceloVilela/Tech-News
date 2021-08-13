@@ -12,6 +12,7 @@ interface StyledPropsFontSize {
 export const Text = styled.Text`
   font-size: ${(props: StyledPropsFontSize) => props.fontSize ? String(props.fontSize) : '16px'};
   /* font-size: ${(props: StyledPropsFontSize) => props.fontSize ? String(props.fontSize) : '16px'}; */
+  font-weight: ${(props) => (props.fontWeight === 'bold' ? 'bold' : 'normal')};
   margin-bottom: ${values.spacing};
   /* text-align: justify; */
   color: ${(props) => props.theme.foreground500};
