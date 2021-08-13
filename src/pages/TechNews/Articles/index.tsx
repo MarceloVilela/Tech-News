@@ -1,16 +1,20 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { FlatList, View, Alert } from 'react-native';
 import { useNavigationState } from '@react-navigation/native';
+import NetInfo from '@react-native-community/netinfo';
 
 import api from '../../../services/api';
+import jsonbin from '../../../services/jsonbin';
 import { sourceLabel, timeAgo } from '../../../utils';
+import { fontVariations } from '../../../styles';
+import { data as dataPlaceholder } from '../../../assets/news_home.json';
 
 import Preview from '../../../components/Preview';
 import Container from '../../../components/Container';
 import { IRoute, INavigation } from '../../../RootNavigation';
-import jsonbin from '../../../services/jsonbin';
 import { useDefinitions } from '../../../hooks/definitions';
+
 interface HistoryKey {
   key?: string;
 }
@@ -39,8 +43,15 @@ interface ArticlesProps {
 
 export default function Articles({ navigation, route }: ArticlesProps) {
   const { definitions } = useDefinitions();
-  const fontSizeDefinition = definitions.appearance_dimensionCaracter;
-  const fontSizeSubtitle = Number(fontSizeDefinition.replace('px', '')) - 4 + 'px';
+  const fontSizeDefinition = fontVariations[String(definitions.appearance_dimensionCaracter)]
+    ? String(definitions.appearance_dimensionCaracter)
+    : '16px';
+  const fontSizeSubtitle = fontVariations[fontSizeDefinition].subTitle;
+  const lineHeight = fontVariations[fontSizeDefinition].lineHeight;
+  const fontWeight = definitions.appearance_letterType === 'bold' ? 'bold' : 'normal';
+  const definitionLoadImage = `${definitions.appearance_loadImage}`;
+  const orientation = `${definitions.box_imageOrientation}`;
+
   const { id: origin, BIN_ID } = route.params;
 
   const [data, setData] = useState([] as IPreviewData[]);
@@ -48,6 +59,27 @@ export default function Articles({ navigation, route }: ArticlesProps) {
   const [loading, setLoading] = useState(false);
   const [fineshed, setFineshed] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [connectionType, setConnectionType] = useState('');
+
+  useEffect(() => {
+    NetInfo.fetch().then((state) => {
+      setConnectionType(state.type);
+    });
+  }, []);
+
+  const loadImage = useMemo(() => {
+    if (definitionLoadImage === 'never') {
+      return false;
+    }
+    if (definitionLoadImage === 'wifi') {
+      if (connectionType === 'wifi') {
+        return true;
+      }
+      return false;
+    }
+    // always
+    return true;
+  }, [definitionLoadImage, connectionType]);
 
   const placeholderData = [...Array(10).keys()].map(({ _data, key }) => ({
     id: key,
@@ -62,8 +94,9 @@ export default function Articles({ navigation, route }: ArticlesProps) {
   // Provisional version while heroku wake up
   const loadCache = useCallback(async (jsonbinId) => {
     try {
-      const { data: responseData } = await jsonbin(jsonbinId);
-      const { data: result } = responseData.record;
+      //const { data: responseData } = await jsonbin(jsonbinId);
+      //const { data: result } = responseData.record;
+      const result = dataPlaceholder;
 
       const add = result.map((item) => ({
         ...item,
@@ -196,6 +229,10 @@ export default function Articles({ navigation, route }: ArticlesProps) {
               placeholder={false}
               fontSize={`${fontSizeDefinition}`}
               fontSizeSubtitle={fontSizeSubtitle}
+              lineHeight={lineHeight}
+              fontWeight={fontWeight}
+              loadImage={loadImage}
+              orientation={orientation}
             />
           )}
           onEndReached={() => loadMore()}

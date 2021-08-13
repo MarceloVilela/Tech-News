@@ -16,6 +16,10 @@ import {
 } from './styles';
 import { IPreviewData } from '../../pages/TechNews/Articles';
 import { INavigation } from '../../RootNavigation';
+import Condensed from './Condensed';
+import Rounded from './Rounded';
+import Material from './Material';
+import MaterialCompact from './MaterialCompact';
 
 interface PreviewParams {
   data: IPreviewData;
@@ -23,9 +27,27 @@ interface PreviewParams {
   placeholder: boolean;
   fontSize: string;
   fontSizeSubtitle: string;
+  fontWeight: string;
+  loadImage: boolean;
+  orientation: string;
+  lineHeight: string;
+  box_theme: string;
 }
 
-const Preview = ({ data, navigation, placeholder = true, fontSize, fontSizeSubtitle }: PreviewParams) => (
+const Preview = ({
+  data,
+  navigation,
+  placeholder = true,
+  //
+  fontSize,
+  fontSizeSubtitle,
+  lineHeight,
+  fontWeight,
+  //
+  loadImage,
+  orientation,
+  box_theme = 'materialCompact',
+}: PreviewParams) => (
   <>
     {!placeholder ? (
       <TouchableOpacity
@@ -33,21 +55,50 @@ const Preview = ({ data, navigation, placeholder = true, fontSize, fontSizeSubti
           navigation.navigate('TechNewsDetail', { url: data.link });
         }}
       >
-        <Container>
-          <Header orientation="right">
-            <ThumbContainer orientation="right">
-              <Thumb source={{ uri: data.thumb }} orientation="right" />
-            </ThumbContainer>
-            <Title fontSize={fontSize}>{data.title}</Title>
-          </Header>
-
-          <Footer>
-            <Identifier fontSizeSubtitle={fontSizeSubtitle}>{data.sourceLabel}</Identifier>
-            <RightFooter>
-              <Time fontSizeSubtitle={fontSizeSubtitle}>{data.timeAgo}</Time>
-            </RightFooter>
-          </Footer>
-        </Container>
+        {box_theme === 'material' && (
+          <Material
+            data={data}
+            fontSize={fontSize}
+            fontSizeSubtitle={fontSizeSubtitle}
+            lineHeight={lineHeight}
+            fontWeight={fontWeight}
+            loadImage={loadImage}
+            orientation={orientation}
+          />
+        )}
+        {box_theme === 'materialCompact' && (
+          <MaterialCompact
+            data={data}
+            fontSize={fontSize}
+            fontSizeSubtitle={fontSizeSubtitle}
+            lineHeight={lineHeight}
+            fontWeight={fontWeight}
+            loadImage={loadImage}
+            orientation={orientation}
+          />
+        )}
+        {box_theme === 'rounded' && (
+          <Rounded
+            data={data}
+            fontSize={fontSize}
+            fontSizeSubtitle={fontSizeSubtitle}
+            lineHeight={lineHeight}
+            fontWeight={fontWeight}
+            loadImage={loadImage}
+            orientation={orientation}
+          />
+        )}
+        {box_theme === 'condensed' && (
+          <Condensed
+            data={data}
+            fontSize={fontSize}
+            fontSizeSubtitle={fontSizeSubtitle}
+            lineHeight={lineHeight}
+            fontWeight={fontWeight}
+            loadImage={loadImage}
+            orientation={orientation}
+          />
+        )}
       </TouchableOpacity>
     ) : (
       <Container>

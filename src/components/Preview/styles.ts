@@ -28,17 +28,19 @@ export const Header = styled.View`
   margin-bottom: 10px;
   flex-wrap: wrap;
   max-height: 140px;
-  max-height: ${(props) => (props.orientation === 'over' ? 221 : 80)};
+  max-height: ${(props) => (props.orientation === 'over' ? '221px' : '80px')};
   overflow: hidden;
 `;
 
 export const Title = styled.Text`
-  /*font-weight: bold;*/
+  width: 100%;
   font-size: 16px;
   font-size: ${(props) => (props.fontSize.includes('px') ? props.fontSize : '16px')};
-  line-height: ${(props) => (props.fontSize.includes('px') ? props.fontSize : '16px')};
+  line-height: ${(props) => (props.lineHeight.includes('px') ? props.lineHeight : '16px')};
+  font-weight: ${(props) => (props.fontWeight === 'bold' ? 'bold' : 'normal')};
   color: ${(props) => props.theme.foreground300};
   flex: 1;
+  border: 1px solid ${(props) => props.theme.background500};
 `;
 
 export const ThumbContainer = styled.View`
@@ -51,8 +53,8 @@ export const Thumb = styled(AutoHeightImage).attrs(() => ({
   width: 128,
   minHeight: 72,
 }))`
-  width: ${(props) => (props.orientation === 'over' ? 256 : 128)};
-  height: ${(props) => (props.orientation === 'over' ? 144 : 72)};
+  width: ${(props) => (props.orientation === 'over' ? '256px' : '128px')};
+  height: ${(props) => (props.orientation === 'over' ? '144px' : '72px')};
   border-radius: 8px;
   border-width: 8px;
 `;
@@ -61,6 +63,7 @@ export const Footer = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
+  border: 1px solid ${(props) => props.theme.background500};
 `;
 
 export const Identifier = styled.Text`
@@ -70,6 +73,7 @@ export const Identifier = styled.Text`
     props.fontSizeSubtitle.includes('px') ? props.fontSizeSubtitle : '16px'};
   line-height: ${(props) =>
     props.fontSizeSubtitle.includes('px') ? props.fontSizeSubtitle : '16px'};
+  font-weight: ${(props) => (props.fontWeight === 'bold' ? 'bold' : 'normal')};
   color: ${(props) => props.theme.foreground600};
 `;
 
@@ -89,6 +93,7 @@ export const Time = styled.Text`
     props.fontSizeSubtitle.includes('px') ? props.fontSizeSubtitle : '16px'};
   line-height: ${(props) =>
     props.fontSizeSubtitle.includes('px') ? props.fontSizeSubtitle : '16px'};
+  font-weight: ${(props) => (props.fontWeight === 'bold' ? 'bold' : 'normal')};
   color: ${(props) => props.theme.foreground600};
   /* border: 1px solid black; */
 `;
@@ -118,4 +123,34 @@ export const ThumbPlaceholder = styled.View`
   width: 120px;
   border: 1px solid #ccc;
   border-radius: 8px;
+`;
+
+export const ContainerCondensed = styled(Container)`
+  margin: 0 2px 8px 2px;
+  padding: 4px;
+  border-radius: 0;
+`;
+
+export const ContainerMaterial = styled(Container)`
+  border-radius: 0;
+`;
+
+export const Aside = styled.View`
+  flex: 1;
+  border: 1px solid ${(props) => props.theme.background500};
+`;
+
+export const FooterMaterialActions = styled(Footer)`
+  border-top-color: ${(props) => props.theme.foreground600};
+  border-top-width: 1;
+  flex: 1;
+  width: 100%;
+  margin-top: 8px;
+  padding-top: 8px;
+`;
+
+export const FooterMaterialAction = styled.Text`
+  font-size: 16px;
+  color: ${(props) => props.theme.foreground600};
+  margin-right: 8px;
 `;

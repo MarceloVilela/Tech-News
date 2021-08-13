@@ -76,4 +76,44 @@ export const preDefined = {
   },
 };
 
+// 12,14,16,18,20,22,24,36,48
+export const fontVariations = {
+  '12px': {
+    subTitle: '8px',
+    lineHeight: '12px',
+  },
+  '14px': {
+    subTitle: '10px',
+    lineHeight: '14px',
+  },
+  '16px': {
+    subTitle: '12px',
+    lineHeight: '16px',
+  },
+  '18px': {
+    subTitle: '14px',
+    lineHeight: '20px',
+  },
+  '20px': {
+    subTitle: '16px',
+    lineHeight: '20px',
+  },
+  '22px': {
+    subTitle: '18px',
+    lineHeight: '22px',
+  },
+  '24px': {
+    subTitle: '20px',
+    lineHeight: '26px',
+  },
+  '36px': {
+    subTitle: '20px',
+    lineHeight: '40px',
+  },
+  '48px': {
+    subTitle: '20px',
+    lineHeight: '48px',
+  },
+};
+
 export default styles;
