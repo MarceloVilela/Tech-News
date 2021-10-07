@@ -6,7 +6,7 @@ import AutoHeightImage from 'react-native-auto-height-image';
 import NetInfo from '@react-native-community/netinfo';
 
 import api from '../../../services/api';
-import placeholder from '../../../assets/techNews/post/olhardigital/data.json';
+// import placeholder from '../../../assets/techNews/post/olhardigital/data.json';
 import { useDetailActions } from '../../../hooks/detailActions';
 import PostContent from '../../../components/PostContent';
 import { IRoute, INavigation } from '../../../RootNavigation';
@@ -55,12 +55,14 @@ const url_default =
 function TechNewsDetail({ route, navigation, url_sample = url_default }: TechNewsDetailsParams) {
   const { definitions } = useDefinitions();
   const definitionLoadImage = `${definitions.appearance_loadImage}`;
+  const fontWeight = definitions.appearance_letterType === 'bold' ? 'bold' : 'normal';
 
   const { url } = route.params ? route.params : { url: placeholder.link };
 
   const { fontSize, renderMode, shareIsPending, setShareIsPending } = useDetailActions();
   const [data, setData] = useState({} as ArticleDetails);
   const [includesVideo, setIncludesVideo] = useState(false);
+  const [withoutText, setWithoutText] = useState(false);
   const [_loading, setLoading] = useState(false);
   const [connectionType, setConnectionType] = useState('');
 
@@ -93,11 +95,14 @@ function TechNewsDetail({ route, navigation, url_sample = url_default }: TechNew
           url: urlOfOriginalPost
         };
 
-        //const { data: post } = await api.get<ArticleDetails>(urlListHome, { params });
-        const post = placeholder;
+        const { data: post } = await api.get<ArticleDetails>(urlListHome, { params });
+        //const post = placeholder;
 
         const hasVideo = post.contents.filter(({ type }) => type === 'video').length > 0;
         setIncludesVideo(hasVideo);
+
+        const empty = post.contents.filter(({ type }) => type === 'text').length === 0;
+        setWithoutText(empty);
 
         post.contents = post.contents.map((item, key) => ({ ...item, key }));
 
@@ -160,7 +165,7 @@ function TechNewsDetail({ route, navigation, url_sample = url_default }: TechNew
     return <WebView source={{ uri: data.link }} />;
   }
 
-  if (includesVideo) {
+  if (includesVideo || withoutText) {
     return <WebView source={{ uri: data.link }} />;
   }
 
@@ -187,6 +192,7 @@ function TechNewsDetail({ route, navigation, url_sample = url_default }: TechNew
           <PostContent
             data={{ value: data.thumb, type: 'text' }}
             fontSize={fontSize}
+            fontWeight={fontWeight}
             loadImage={false}
           />
         </>
@@ -197,6 +203,7 @@ function TechNewsDetail({ route, navigation, url_sample = url_default }: TechNew
           key={item.key}
           data={item}
           fontSize={fontSize}
+          fontWeight={fontWeight}
           loadImage={loadImage}
         />
       ))}
