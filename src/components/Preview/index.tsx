@@ -4,15 +4,10 @@ import { TouchableOpacity, View } from 'react-native';
 import {
   Container,
   Header,
-  Title,
-  Thumb,
   Footer,
-  Identifier,
   RightFooter,
-  Time,
   TextPlaceholder,
   ThumbPlaceholder,
-  ThumbContainer,
 } from './styles';
 import { IPreviewData } from '../../pages/TechNews/Articles';
 import { INavigation } from '../../RootNavigation';
@@ -31,7 +26,7 @@ interface PreviewParams {
   loadImage: boolean;
   orientation: string;
   lineHeight: string;
-  box_theme: string;
+  boxTheme: string;
 }
 
 const Preview = ({
@@ -46,7 +41,7 @@ const Preview = ({
   //
   loadImage,
   orientation,
-  box_theme = 'materialCompact',
+  boxTheme,
 }: PreviewParams) => (
   <>
     {!placeholder ? (
@@ -55,7 +50,7 @@ const Preview = ({
           navigation.navigate('TechNewsDetail', { url: data.link });
         }}
       >
-        {box_theme === 'material' && (
+        {boxTheme === 'material' && (
           <Material
             data={data}
             fontSize={fontSize}
@@ -66,7 +61,7 @@ const Preview = ({
             orientation={orientation}
           />
         )}
-        {box_theme === 'materialCompact' && (
+        {boxTheme === 'materialCompact' && (
           <MaterialCompact
             data={data}
             fontSize={fontSize}
@@ -77,7 +72,7 @@ const Preview = ({
             orientation={orientation}
           />
         )}
-        {box_theme === 'rounded' && (
+        {boxTheme === 'rounded' && (
           <Rounded
             data={data}
             fontSize={fontSize}
@@ -88,7 +83,7 @@ const Preview = ({
             orientation={orientation}
           />
         )}
-        {box_theme === 'condensed' && (
+        {boxTheme === 'condensed' && (
           <Condensed
             data={data}
             fontSize={fontSize}

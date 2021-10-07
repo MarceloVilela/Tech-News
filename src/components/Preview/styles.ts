@@ -46,7 +46,7 @@ export const Title = styled.Text`
 export const ThumbContainer = styled.View`
   width: ${(props) => (props.orientation === 'over' ? '100%' : '138px')};
   margin-bottom: 8px;
-  align-items: ${(props) => (props.orientation === 'over' ? 'center' : 'flex-start')};
+  align-items: ${(props) => (props.orientation === 'over' ? 'center' : 'baseline')};
 `;
 
 export const Thumb = styled(AutoHeightImage).attrs(() => ({
@@ -55,6 +55,8 @@ export const Thumb = styled(AutoHeightImage).attrs(() => ({
 }))`
   width: ${(props) => (props.orientation === 'over' ? '256px' : '128px')};
   height: ${(props) => (props.orientation === 'over' ? '144px' : '72px')};
+  margin-left: ${(props) => (props.orientation === 'left' ? '0' : '10px')};
+  margin-right: ${(props) => (props.orientation === 'right' ? '0' : '10px')};
   border-radius: 8px;
   border-width: 8px;
 `;
@@ -138,11 +140,12 @@ export const ContainerMaterial = styled(Container)`
 export const Aside = styled.View`
   flex: 1;
   border: 1px solid ${(props) => props.theme.background500};
+  height: 70px;
 `;
 
 export const FooterMaterialActions = styled(Footer)`
   border-top-color: ${(props) => props.theme.foreground600};
-  border-top-width: 1;
+  border-top-width: 1px;
   flex: 1;
   width: 100%;
   margin-top: 8px;

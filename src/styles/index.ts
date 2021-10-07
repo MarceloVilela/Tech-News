@@ -100,7 +100,7 @@ export const fontVariations = {
   },
   '22px': {
     subTitle: '18px',
-    lineHeight: '22px',
+    lineHeight: '26px',
   },
   '24px': {
     subTitle: '20px',

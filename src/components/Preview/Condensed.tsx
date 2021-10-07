@@ -64,7 +64,6 @@ const Condensed = ({
           </Footer>
         </Aside>
       </Header>
-
     </ContainerCondensed>
   </>
 );

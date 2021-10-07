@@ -10,7 +10,6 @@ import {
   Time,
   ThumbPlaceholder,
   ThumbContainer,
-  Container,
   ContainerMaterial,
   FooterMaterialActions,
   FooterMaterialAction,
