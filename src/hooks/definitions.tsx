@@ -26,12 +26,12 @@ const DefinitionsContext = createContext({} as ContextDefinitions);
 const DefinitionsProvider = ({ children }: DefinitionsProviderParams) => {
   const [data, setData] = useState({
     appearance_loadImage: 'always',
-    appearance_dimensionCaracter: 'default',
+    appearance_dimensionCaracter: '14px',
     appearance_dimensionCaracterArticle: 'default',
     appearance_letterType: 'default',
-    appearance_darkMode: 'false',
-    box_imageOrientation: 'right',
-    box_theme: 'material',
+    appearance_darkMode: 'true',
+    box_imageOrientation: 'left',
+    box_theme: 'materialCompact',
     general_recent: true,
     general_notifications: '12',
     general_exit: false,

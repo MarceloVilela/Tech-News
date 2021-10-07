@@ -8,7 +8,7 @@ import api from '../../../services/api';
 import jsonbin from '../../../services/jsonbin';
 import { sourceLabel, timeAgo } from '../../../utils';
 import { fontVariations } from '../../../styles';
-import { data as dataPlaceholder } from '../../../assets/news_home.json';
+// import { data as dataPlaceholder } from '../../../assets/news_home.json';
 
 import Preview from '../../../components/Preview';
 import Container from '../../../components/Container';
@@ -47,9 +47,10 @@ export default function Articles({ navigation, route }: ArticlesProps) {
     ? String(definitions.appearance_dimensionCaracter)
     : '16px';
   const fontSizeSubtitle = fontVariations[fontSizeDefinition].subTitle;
-  const lineHeight = fontVariations[fontSizeDefinition].lineHeight;
+  const { lineHeight } = fontVariations[fontSizeDefinition];
   const fontWeight = definitions.appearance_letterType === 'bold' ? 'bold' : 'normal';
   const definitionLoadImage = `${definitions.appearance_loadImage}`;
+  const boxTheme = `${definitions.box_theme}`;
   const orientation = `${definitions.box_imageOrientation}`;
 
   const { id: origin, BIN_ID } = route.params;
@@ -94,9 +95,9 @@ export default function Articles({ navigation, route }: ArticlesProps) {
   // Provisional version while heroku wake up
   const loadCache = useCallback(async (jsonbinId) => {
     try {
-      //const { data: responseData } = await jsonbin(jsonbinId);
-      //const { data: result } = responseData.record;
-      const result = dataPlaceholder;
+      const { data: responseData } = await jsonbin(jsonbinId);
+      const { data: result } = responseData.record;
+      // const result = dataPlaceholder;
 
       const add = result.map((item) => ({
         ...item,
@@ -232,6 +233,7 @@ export default function Articles({ navigation, route }: ArticlesProps) {
               lineHeight={lineHeight}
               fontWeight={fontWeight}
               loadImage={loadImage}
+              boxTheme={boxTheme}
               orientation={orientation}
             />
           )}
@@ -244,7 +246,19 @@ export default function Articles({ navigation, route }: ArticlesProps) {
           <View style={{ marginTop: 16 }}>
 
             {placeholderData.map((item) => (
-              <Preview data={item} navigation={navigation} placeholder />
+              <Preview
+                key={item.id}
+                data={item}
+                navigation={navigation}
+                placeholder
+                fontSize=""
+                fontSizeSubtitle=""
+                fontWeight=""
+                loadImage={false}
+                orientation=""
+                lineHeight=""
+                boxTheme=""
+              />
             ))}
           </View>
         )}
