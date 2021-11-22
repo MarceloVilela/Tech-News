@@ -1,12 +1,14 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
-import { View, Button, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Google from 'expo-google-app-auth';
 import PropTypes from 'prop-types';
 
 import env from '../../../../env';
 import { navigate, INavigation } from '../../../RootNavigation';
+import { Button, Container } from '../../../components';
+import { Wrapper } from './styles';
 
 interface SocialAuthProps {
   navigation: INavigation;
@@ -30,7 +32,7 @@ export default function SocialAuth({ navigation }: SocialAuthProps) {
     };
 
     _retrieveData();
-  }, [userEmail]);
+  }, [userEmail, navigation]);
 
   const handleGoogleLoginPress = async () => {
     try {
@@ -63,36 +65,21 @@ export default function SocialAuth({ navigation }: SocialAuthProps) {
   };
 
   return (
-    <View>
-      <View
-        style={{
-          display: 'flex',
-          height: '100%',
-          justifyContent: 'center',
-          paddingHorizontal: 20,
-          backgroundColor: '#ccc',
-          justifyContent: 'space-around',
-        }}
-      >
+    <Container>
+      <Wrapper>
         {userEmail ? (
           <>
-            <Button
-              title="Buscar novos artigos"
-              onPress={() => navigate('TechNewsRefresh', {})}
-            />
+            <Button handleOnPress={() => navigate('TechNewsRefresh', {})}><>Buscar novos artigos</></Button>
 
-            <Button
-              title="Atualizar placeholder"
-              onPress={() => navigate('TechNewsPlaceholder', {})}
-            />
+            <Button handleOnPress={() => navigate('TechNewsPlaceholder', {})}><>Atualizar placeholder</></Button>
           </>
         ) : (
           <>
-            <Button title="Google" onPress={handleGoogleLoginPress} />
+            <Button handleOnPress={() => { handleGoogleLoginPress() }}><>Google</></Button>
           </>
         )}
-      </View>
-    </View>
+      </Wrapper>
+    </Container>
   );
 }
 
