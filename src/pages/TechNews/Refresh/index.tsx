@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Alert } from 'react-native';
+// import { Alert } from 'react-native';
 
 import api from '../../../services/api';
 import { origins } from '../../../assets/origins.json';
 import Container from '../../../components/Container';
-import Button from '../../../components/Button';
-import { Small } from './styles';
+import { ScrollView, ActionsWrapper, Small } from './styles';
 import { isValidArticle } from '../../../utils';
 import { INavigation } from '../../../RootNavigation';
+import { Button } from '../../../components';
 
 interface Content {
-  type: "text" | "video" | "image" | "text_highlighted";
+  type: 'text' | 'video' | 'image' | 'text_highlighted';
   value: string;
   key?: number;
   content?: string;
@@ -50,6 +50,8 @@ export default function TechNewsRefresh({ navigation }: TechNewsRefreshProps) {
 
   const [responseDebug, setResponseDebug] = useState([]);
   const [feedbackText, setFeedbackText] = useState('');
+  const [errorMessages, setErrorMessages] = useState<String[]>([]);
+  const [display, setDisplay] = useState('debug');
 
   useEffect(() => {
     const refresh = async () => {
@@ -70,10 +72,10 @@ export default function TechNewsRefresh({ navigation }: TechNewsRefreshProps) {
         recents = response.data.posts;
         setResponseDebug(response.data.posts as any);
       } catch (error) {
-        Alert.alert(
-          `Erro ao listar homepage ${origins[indexOrigin].title}`,
-          `${url} JSON.stringify(params)`
-        );
+        const messageTitle = `${origins[indexOrigin].title} - Erro ao listar homepage \n`;
+        const messageContent = `${url} ${JSON.stringify(params)}`;
+        setErrorMessages((prevState) => [...prevState, messageTitle + messageContent]);
+        // Alert.alert(messageContent, messageContent);
         setIndexOrigin(indexOrigin + 1);
         return;
       }
@@ -96,10 +98,14 @@ export default function TechNewsRefresh({ navigation }: TechNewsRefreshProps) {
         pending = response.data;
         setResponseDebug(response.data);
       } catch (error) {
-        Alert.alert(
-          `Erro ao checar pendentes ${origins[indexOrigin].title}`,
-          `${urlToCheck}\n${error.message}\n${JSON.stringify(error.response, null, 2)}`
-        );
+        const messageTitle = `${origins[indexOrigin].title} - Erro ao checar pendentes \n`;
+        const messageContent = `${urlToCheck}\n${error.message}\n${JSON.stringify(
+          error.response,
+          null,
+          2
+        )}`;
+        setErrorMessages((prevState) => [...prevState, messageTitle + messageContent]);
+        // Alert.alert(messageTitle, messageContent);
         setIndexOrigin(indexOrigin + 1);
         return;
       }
@@ -118,10 +124,11 @@ export default function TechNewsRefresh({ navigation }: TechNewsRefreshProps) {
       setFeedbackText('Listando post');
       const urlSource = '/technews-source/detail';
       try {
-        const response = await Promise.all(
-          pendingResolved.map((urlToList: string) => api
-            .get(urlSource, { params: { url: urlToList } }))
-        ) as ResponseDetail[];
+        const response = (await Promise.all(
+          pendingResolved.map((urlToList: string) =>
+            api.get(urlSource, { params: { url: urlToList } })
+          )
+        )) as ResponseDetail[];
 
         const responsesFiltered = response
           .filter(({ data: item }) => item.link && item.thumb)
@@ -130,8 +137,17 @@ export default function TechNewsRefresh({ navigation }: TechNewsRefreshProps) {
 
         setFeedbackText('Armazenando post...');
 
+        const messageTitle = `${origins[indexOrigin].title} - Erro ao enviar artigo \n`;
         const urlCreate = '/technews/post';
-        await Promise.all(responsesFiltered.map(({ data }) => api.post(urlCreate, data)));
+        await Promise.all(
+          responsesFiltered.map(({ data }) =>
+            api
+              .post(urlCreate, data)
+              .catch(() =>
+                setErrorMessages((prevState) => [...prevState, messageTitle + data.link])
+              )
+          )
+        );
 
         if (indexOrigin === origins.length - 1) {
           setFeedbackText('Completo!!!');
@@ -139,10 +155,10 @@ export default function TechNewsRefresh({ navigation }: TechNewsRefreshProps) {
           setIndexOrigin(indexOrigin + 1);
         }
       } catch (error) {
-        Alert.alert(
-          `Erro ao enviar artigo ${origins[indexOrigin].title}`,
-          error.data ? JSON.stringify(error.data, null, 2) : error.message
-        );
+        const messageTitle = `${origins[indexOrigin].title} - Erro ao enviar artigo \n`;
+        const messageContent = error.message;
+        setErrorMessages((prevState) => [...prevState, messageTitle + messageContent]);
+        // Alert.alert(messageTitle, messageContent);
         setIndexOrigin(indexOrigin + 1);
       }
     };
@@ -160,15 +176,31 @@ export default function TechNewsRefresh({ navigation }: TechNewsRefreshProps) {
   }, []);
 
   return (
-    <Container style={{ backgroundColor: '#FFF' }}>
+    <Container>
       <>
-        <ScrollView style={{ backgroundColor: 'black', paddingVertical: 16, paddingHorizontal: 8 }}>
-          <Small style={{ color: 'yellow' }}>{JSON.stringify(responseDebug, null, 2)}</Small>
+        <ScrollView>
+          {display === 'debug' ? (
+            <Small>{JSON.stringify(responseDebug, null, 2)}</Small>
+          ) : (
+            <Small>{JSON.stringify(errorMessages, null, 2)}</Small>
+          )}
         </ScrollView>
 
-        <Button handleOnPress={() => { }}>
-          <>{feedbackText}</>
-        </Button>
+        <ActionsWrapper>
+          {display === 'debug' ? (
+            <Button handleOnPress={() => setDisplay('error')}>
+              <>Exibir erros</>
+            </Button>
+          ) : (
+            <Button handleOnPress={() => setDisplay('debug')}>
+              <>Exibir debug</>
+            </Button>
+          )}
+
+          <Button handleOnPress={() => {}}>
+            <>Etapa - {feedbackText}</>
+          </Button>
+        </ActionsWrapper>
       </>
     </Container>
   );

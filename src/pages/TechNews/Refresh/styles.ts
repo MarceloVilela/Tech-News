@@ -6,53 +6,32 @@ export const Container = styled.View`
   border: 1px solid #eee;
 `;
 
-export const EdgeSpace = styled.View`
-  padding: 0 8px;
+export const ScrollView = styled.ScrollView`
+  background-color: blue;
+  background-color: ${(props) => props.theme.background300};
+  padding-horizontal: 8px;
+  padding-top: 16px;
+  padding-bottom: 120px;
 `;
 
-export const Header = styled.View`
-  /*border: 1px solid red;*/
+export const ActionsWrapper = styled.View`
+  background-color: black;
+  background-color: ${(props) => props.theme.background300};
+  padding: 8px;
+  height: 120px;
+  justify-content: space-between;
 `;
 
-export const Footer = styled.View`
-  /*border: 1px solid green;*/
-  margin-top: 8px;
-`;
-
-export const Strong = styled.Text`
-  /*font-weight: bold;*/
-  font-size: 14px;
-  font-weight: 600;
-  color: #262626;
-  flex: 1;
+export const Button = styled.Button`
+  color: ${(props) => props.theme.primary600};
+  color: yellow;
+  background-color: yellow;
 `;
 
 export const Small = styled.Text`
   /*font-weight: bold;*/
   font-size: 12px;
   font-weight: 400;
-  color: #262626;
+  color: yellow;
   flex: 1;
-`;
-
-export const About = styled.View`
-  flex-direction: row;
-  align-items: center;
-
-  margin-bottom: 8px;
-`;
-
-export const Avatar = styled.Image`
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-`;
-
-export const LabelsContainer = styled.View`
-  flex-direction: column;
-  margin-left: 8px;
-`;
-
-export const Link = styled.View`
-  margin: 16px 0;
 `;
