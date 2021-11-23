@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Alert } from 'react-native';
+import { Alert } from 'react-native';
 
 import api from '../../../services/api';
 import jsonbin from '../../../services/jsonbin';
 import { origins } from '../../../assets/origins.json';
 
-
 import Container from '../../../components/Container';
-import Button from '../../../components/Button';
 import { INavigation } from '../../../RootNavigation';
 
-import { Small } from './styles';
-
+import { ScrollView, ActionsWrapper, Small } from '../Refresh/styles';
+import { Button } from '../../../components';
 
 interface TechNewsRefreshProps {
   navigation: INavigation;
@@ -20,6 +18,8 @@ interface TechNewsRefreshProps {
 export default function TechNewsPlaceholder({ navigation }: TechNewsRefreshProps) {
   const [responseDebug, setResponseDebug] = useState([]);
   const [feedbackText, setFeedbackText] = useState('');
+  const [lastDates, setLastDates] = useState<String[]>([]);
+  const [display, setDisplay] = useState('feedback');
 
   useEffect(() => {
     const refresh = async ({ title, url, BIN_ID, index }) => {
@@ -32,12 +32,14 @@ export default function TechNewsPlaceholder({ navigation }: TechNewsRefreshProps
       const params = {
         page: 1,
         url,
-      }
+      };
 
       try {
         const response = await api.get('/technews/post/origin', { params });
         data = response.data;
 
+        const last = `${title} | ${data.data[0].created_at}`;
+        setLastDates((prevState) => [...prevState, last]);
         // Alert.alert(url, JSON.stringify(params, null, 2));return;
       } catch (error) {
         Alert.alert(
@@ -65,7 +67,7 @@ export default function TechNewsPlaceholder({ navigation }: TechNewsRefreshProps
         title: 'Mais Recentes',
         url: '',
         BIN_ID: '6092cee092cb9267d0ce0e00',
-      }
+      };
       const originsIncremented = [originRecent, ...origins];
 
       // eslint-disable-next-line no-plusplus
@@ -73,7 +75,7 @@ export default function TechNewsPlaceholder({ navigation }: TechNewsRefreshProps
         // eslint-disable-next-line no-await-in-loop
         await refresh({ ...originsIncremented[i], index: i });
       }
-    }
+    };
 
     iterateOrigins();
   }, [navigation]);
@@ -85,15 +87,31 @@ export default function TechNewsPlaceholder({ navigation }: TechNewsRefreshProps
   }, []);
 
   return (
-    <Container style={{ backgroundColor: '#FFF' }}>
+    <Container>
       <>
-        <ScrollView style={{ backgroundColor: 'black', paddingVertical: 16, paddingHorizontal: 8 }}>
-          <Small style={{ color: 'yellow' }}>{JSON.stringify(responseDebug, null, 2)}</Small>
+        <ScrollView>
+          {display === 'feedback' ? (
+            <Small>{JSON.stringify(responseDebug, null, 2)}</Small>
+          ) : (
+            <Small>{JSON.stringify(lastDates, null, 2)}</Small>
+          )}
         </ScrollView>
 
-        <Button handleOnPress={() => { }}>
-          <>{feedbackText}</>
-        </Button>
+        <ActionsWrapper>
+          {display === 'feedback' ? (
+            <Button handleOnPress={() => setDisplay('last')}>
+              <>Exibir última data</>
+            </Button>
+          ) : (
+            <Button handleOnPress={() => setDisplay('feedback')}>
+              <>Exibir feedback</>
+            </Button>
+          )}
+
+          <Button handleOnPress={() => {}}>
+            <>Etapa - {feedbackText}</>
+          </Button>
+        </ActionsWrapper>
       </>
     </Container>
   );
