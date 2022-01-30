@@ -29,6 +29,9 @@
       "backgroundColor": "#0c6eb5"
     },
     "description": "Notícias de Tecnologia - leia os mais famosos blogs e sites de notícias de tecnologia",
-    "githubUrl": "https://github.com/MarceloVilela/Tech-News"
+    "githubUrl": "https://github.com/MarceloVilela/Tech-News",
+    "android": {
+      "package": "com.marcelovilela.Tech_News"
+    }
   }
 }
